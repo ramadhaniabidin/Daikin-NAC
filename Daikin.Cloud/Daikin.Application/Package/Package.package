@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="a647db66-2cd7-4818-9d01-cf13c04371b3" 
+        solutionId="a647db66-2cd7-4818-9d01-cf13c04371b3" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="Daikin.Application"
+        sharePointProductVersion="16.0">
+</package>
