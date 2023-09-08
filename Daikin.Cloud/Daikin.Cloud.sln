@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.33423.255
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Daikin.WebApps", "Daikin.WebApps\Daikin.WebApps.csproj", "{842FEF8D-CA2E-4BEF-8D1E-2193EE65DD63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Daikin.Application", "Daikin.Application\Daikin.Application.csproj", "{842FEF8D-CA2E-4BEF-8D1E-2193EE65DD63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
