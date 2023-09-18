@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package dslVersion="1.0.0.0" 
-        Id="8d61897d-071a-4241-807c-4844d89db7f6" 
-        solutionId="8d61897d-071a-4241-807c-4844d89db7f6" 
-        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
-        name="Daikin.EReceiver"
-        sharePointProductVersion="16.0">
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="8d61897d-071a-4241-807c-4844d89db7f6" solutionId="8d61897d-071a-4241-807c-4844d89db7f6" resetWebServer="false" sharePointProductVersion="16.0" name="Daikin.EReceiver" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
+  <assemblies>
+    <projectOutputAssembly location="Daikin.EReceiverLogics.dll" deploymentTarget="GlobalAssemblyCache" projectPath="..\Daikin.EReceiverLogics\Daikin.EReceiverLogics.csproj" />
+  </assemblies>
+  <features>
+    <featureReference itemId="9dbae073-8379-4f5b-b0bf-4d36da9b45cb" />
+  </features>
 </package>
