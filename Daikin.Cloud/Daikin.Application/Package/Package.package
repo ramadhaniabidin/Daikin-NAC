@@ -2,5 +2,6 @@
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a647db66-2cd7-4818-9d01-cf13c04371b3" solutionId="a647db66-2cd7-4818-9d01-cf13c04371b3" resetWebServer="false" sharePointProductVersion="16.0" name="Daikin.Application" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
   <projectItems>
     <projectItemReference itemId="443731d2-eb07-4f8b-b17c-16ee28a2a8e3" />
+    <projectItemReference itemId="4b5a99e4-f8b2-4be7-b078-fca8318818c7" />
   </projectItems>
 </package>

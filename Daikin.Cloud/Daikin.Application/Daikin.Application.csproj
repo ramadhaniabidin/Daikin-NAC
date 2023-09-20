@@ -55,6 +55,13 @@
     <Reference Include="Microsoft.SharePoint.Client.ServerRuntime" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Layouts\Daikin.Application\Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Daikin.Application\Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Layouts\Daikin.Application\Modules\Home.aspx.cs">
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -65,6 +72,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{4b5a99e4-f8b2-4be7-b078-fca8318818c7}</SharePointProjectItemId>
+    </None>
     <None Include="key.snk" />
     <None Include="Layouts\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{443731d2-eb07-4f8b-b17c-16ee28a2a8e3}</SharePointProjectItemId>
@@ -77,9 +87,45 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Images\Daikin.Application\" />
     <Folder Include="Layouts\Daikin.Application\WebServices\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Layouts\Daikin.Application\Assets\Background Nintex-01.jpg" />
+    <Content Include="Layouts\Daikin.Application\Assets\Background Nintex-02.jpg" />
+    <Content Include="Layouts\Daikin.Application\Assets\Claim &amp; Reimbursement\Icon Daikin Nintex-05.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Claim &amp; Reimbursement\Icon Daikin Nintex-06.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Claim &amp; Reimbursement\Icon Daikin Nintex-07.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Claim &amp; Reimbursement\Icon Daikin Nintex-08.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Claim &amp; Reimbursement\Icon Daikin Nintex-09.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Claim &amp; Reimbursement\Icon Daikin Nintex-10.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Claim &amp; Reimbursement\Icon Daikin Nintex-11.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Claim &amp; Reimbursement\Icon Daikin Nintex-12.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Claim &amp; Reimbursement\Icon Daikin Nintex-13.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Commercial\Icon Daikin Nintex-14.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Commercial\Icon Daikin Nintex-15.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Commercial\Icon Daikin Nintex-16.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Commercial\Icon Daikin Nintex-17.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Commercial\Icon Daikin Nintex-18.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Commercial\Icon Daikin Nintex-19.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Finance Payment\Icon Daikin Nintex-01.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Finance Payment\Icon Daikin Nintex-02.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Finance Payment\Icon Daikin Nintex-03.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Finance Payment\Icon Daikin Nintex-04.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Logo Daikin Landscape.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\logowhite.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\nav.css" />
+    <Content Include="Layouts\Daikin.Application\Assets\Non Commercial\Icon Daikin Nintex-20.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Non Commercial\Icon Daikin Nintex-21.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Non Commercial\Icon Daikin Nintex-22.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Non Commercial\Icon Daikin Nintex-23.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Non Commercial\Icon Daikin Nintex-24.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Non Commercial\Icon Daikin Nintex-25.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Non Commercial\Icon Daikin Nintex-26.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Non Commercial\Icon Daikin Nintex-27.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Task List\Icon Daikin Nintex-28.png" />
+    <Content Include="Layouts\Daikin.Application\Assets\Task List\Icon Daikin Nintex-29.png" />
+    <Content Include="Layouts\Daikin.Application\Home.aspx" />
     <Content Include="Layouts\Daikin.Application\Modules\Home.aspx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
