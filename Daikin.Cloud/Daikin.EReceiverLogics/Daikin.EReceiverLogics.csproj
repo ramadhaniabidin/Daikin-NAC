@@ -55,6 +55,7 @@
     <Compile Include="Common\Model\Attachment.cs" />
     <Compile Include="Common\Model\EventRecieverModel.cs" />
     <Compile Include="Common\Utility.cs" />
+    <Compile Include="Common\XMLManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -17,7 +17,7 @@
     <MinimumOfficeToolsVersion>14.0</MinimumOfficeToolsVersion>
     <TargetFrameworkProfile />
     <SandboxedSolution>False</SandboxedSolution>
-    <ActiveDeploymentConfiguration>Default</ActiveDeploymentConfiguration>
+    <ActiveDeploymentConfiguration>No Activation</ActiveDeploymentConfiguration>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,7 +58,7 @@
     <Reference Include="Microsoft.SharePoint.Client.ServerRuntime" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NAC_EventReciever\NAC_EventReciever.cs" />
+    <Compile Include="MyEventReceiver\MyEventReceiver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,8 +66,8 @@
       <FeatureId>{9dbae073-8379-4f5b-b0bf-4d36da9b45cb}</FeatureId>
     </None>
     <None Include="key.snk" />
-    <None Include="NAC_EventReciever\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{f65a64d0-9dbf-4b77-9c96-ea5b1286068a}</SharePointProjectItemId>
+    <None Include="MyEventReceiver\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{be08d793-b494-4bfb-94af-76f1d3febfff}</SharePointProjectItemId>
     </None>
     <None Include="Package\Package.package">
       <PackageId>{8d61897d-071a-4241-807c-4844d89db7f6}</PackageId>
@@ -80,8 +80,9 @@
   <ItemGroup>
     <Content Include="Features\Daikin.EFeature\Daikin.EFeature.Template.xml">
       <DependentUpon>Daikin.EFeature.feature</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
-    <Content Include="NAC_EventReciever\Elements.xml" />
+    <Content Include="MyEventReceiver\Elements.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Daikin.EReceiverLogics\Daikin.EReceiverLogics.csproj">
