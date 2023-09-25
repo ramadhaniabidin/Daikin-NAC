@@ -91,7 +91,7 @@ namespace Daikin.ERecieverLogics.Common
                 throw ex;
             }
         }
-        
+
 
         #endregion
 
@@ -139,6 +139,33 @@ namespace Daikin.ERecieverLogics.Common
                 throw ex;
             }
         }
+
+        public int ExecQueryWithReturnID(string fullQuery)
+        {
+            try
+            {
+                db.OpenConnection(ref conn, true);
+                db.cmd.CommandText = fullQuery;
+                db.cmd.CommandType = CommandType.Text;
+
+                SqlDataReader reader = db.cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                db.CloseDataReader(reader);
+                db.CloseConnection(ref conn);
+
+                var id = dt.Rows[0].Field<int>(0);
+
+                return id;
+            }
+            catch (Exception ex)
+            {
+                db.CloseConnection(ref conn);
+                throw ex;
+            }
+        }
+
+
 
         public void InsertApprovalLogAfterRevise(string ListName)
         {

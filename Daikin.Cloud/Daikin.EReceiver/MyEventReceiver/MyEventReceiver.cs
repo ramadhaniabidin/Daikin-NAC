@@ -36,6 +36,7 @@ namespace Daikin.EReceiver.MyEventReceiver
             int lastloop = 0;
             string lastcol = "";
             string tblType = "";
+            int header_id = 0;
 
             // temp var utk query Details yg sedang dijalankan
             var detailQuery = "";
@@ -133,14 +134,14 @@ namespace Daikin.EReceiver.MyEventReceiver
 
                 string combineValues = string.Join(",", values);
 
-                fullQuery = sql + " VALUES (" + combineValues + ")";
+                fullQuery = sql + " OUTPUT inserted.ID VALUES (" + combineValues + ")";
                 detailQuery = fullQuery;
 
                 lastloop = 0;
                 tblType = "Execute Query Header";
                 if (i > 0)
                 {
-                    func.ExecQuery(fullQuery);
+                    header_id = func.ExecQueryWithReturnID(fullQuery);
                 }
 
                 #region Save XMl Repeationg Section to Table Details
@@ -165,6 +166,18 @@ namespace Daikin.EReceiver.MyEventReceiver
                         // dia ngematching di table mapping/filter berdasarkan defined data (TableName, SPColumnname)
                         DataRow[] matchingRows = dtAttrDetails.Select($"Sharepoint_Column = '{attr.SPColumnName}' AND Database_Column = '{attr.TableName}'");
                         dtAttrDetailsFilter.Clear();
+
+                        if (dtAttrDetails.Columns.Contains("ID"))
+                        {
+                            dtAttrDetailsFilter.Rows.Add("", "ID", "ID");
+                        }
+
+                        if (dtAttrDetails.Columns.Contains("Header_ID"))
+                        {
+                            dtAttrDetailsFilter.Rows.Add("", "Header_ID", "Header_ID");
+                        }
+
+                        //dtAttrDetailsFilter.
                         foreach (DataRow matchingRow in matchingRows)
                         {
                             // dimasukkin ke cloning table di atas, jd isi cloning table itu sama kaya table mappingan cuman udh filtern
@@ -174,22 +187,22 @@ namespace Daikin.EReceiver.MyEventReceiver
                         XElement root = XElement.Parse(attr.XMLString);
                         foreach (var item in root.Descendants("Item"))
                         {
-                            if (XMLManager.GetValue(item, "item_id") == "NOT EXISTS")
+                            if (XMLManager.GetValue(item, "ID") == "NOT EXISTS")
                             {
-                                XMLManager.AddAttribute(item, "item_id", "");
+                                XMLManager.AddAttribute(item, "ID", "");
                             }
 
-                            if (XMLManager.GetValue(item, "guid") == "NOT EXISTS")
+                            if (XMLManager.GetValue(item, "Header_ID") == "NOT EXISTS")
                             {
-                                XMLManager.AddAttribute(item, "guid", "");
+                                XMLManager.AddAttribute(item, "Header_ID", header_id.ToString());
                             }
 
-                            //set value
-                            item.Element("item_id").Value = properties.ListItem.ID.ToString();
+                            ////set value
+                            //item.Element("Header_ID").Value = header_id.ToString();
 
-                            if (string.IsNullOrEmpty(XMLManager.GetValue(item, "guid")))
+                            if (string.IsNullOrEmpty(XMLManager.GetValue(item, "ID")))
                             {
-                                item.Element("guid").Value = Guid.NewGuid().ToString();
+                                item.Element("ID").Value = Guid.NewGuid().ToString();
                             }
                         }
 
