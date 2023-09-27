@@ -150,7 +150,7 @@ namespace Daikin.EReceiver.MyEventReceiver
                 if (dtAttrDetails.Rows.Count > 0)
                 {
                     DataView view = new DataView(dtAttrDetails);
-                    DataTable distinctValues = view.ToTable(true, "Sharepoint_Column", "Database_Column"); //distint berdasarkan SPColumnName & TableName
+                    DataTable distinctValues = view.ToTable(true, "Sharepoint_Column", "Database_Column", "Table_Detail"); //distint berdasarkan SPColumnName & TableName
                     DataTable dtAttrDetailsFilter = dtAttrDetails.Clone(); //clone table distint, nnti buat store data specific DetailCode
 
                     foreach (DataRow rowDistinct in distinctValues.Rows) //looping ke each distinct values buat get data (TableName, SPColumnName)
@@ -159,8 +159,8 @@ namespace Daikin.EReceiver.MyEventReceiver
                         // define Table Name, SpColumnName dr current distinct
                         attr.code = listItem["Title"].ToString();
                         attr.item_id = listItem.ID;
-                        attr.TableName = Utility.GetStringValue(rowDistinct, "Database_Column");
-                        attr.SPColumnName = Utility.GetStringValue(rowDistinct, "Sharepoint_Column");
+                        attr.TableName = Utility.GetStringValue(rowDistinct, "Table_Detail");
+                        attr.SPColumnName = "Details";
                         attr.XMLString = listItem[Utility.GetStringValue(rowDistinct, "Sharepoint_Column")].ToString();
 
                         // dia ngematching di table mapping/filter berdasarkan defined data (TableName, SPColumnname)
@@ -208,8 +208,12 @@ namespace Daikin.EReceiver.MyEventReceiver
 
                         attr.XMLString = root.ToString();
                         List<string> listQueryDetails = XMLManager.ConvertDataTableToSQL(dtAttrDetailsFilter, attr);
-                        detailQuery = "DELETE " + attr.TableName + " WHERE Header_ID = " + properties.ListItem.ID.ToString();
+                        detailQuery = "DELETE " + attr.TableName + " WHERE Header_ID = " + header_id.ToString();
                         func.ExecQuery(detailQuery);
+
+                        #region AutoCode
+
+                        #endregion
 
                         tblType = "Executing Query Detail";
                         foreach (string query in listQueryDetails)
