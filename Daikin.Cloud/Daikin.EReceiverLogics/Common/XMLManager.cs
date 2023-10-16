@@ -75,7 +75,7 @@ namespace Daikin.EReceiverLogics.Common
                 currProcess = "Get DB Columng Mapping";
                 foreach (DataRow rowAttr in dtAttributesFilter.Rows)
                 {
-                    string dbColumnName = Utility.GetStringValue(rowAttr, "DBColumnName");
+                    string dbColumnName = Utility.GetStringValue(rowAttr, "Database_Column");
                     dbFields.Add(dbColumnName);
                 }
                 XElement root = XElement.Parse(attr.XMLString);
@@ -89,8 +89,8 @@ namespace Daikin.EReceiverLogics.Common
                     foreach (DataRow rowAttr in dtAttributesFilter.Rows)
                     {
                         currAtt = Utility.GetStringValue(rowAttr, "XMLNodes");
-                        string val = String.IsNullOrEmpty(Utility.GetStringValue(rowAttr, "XMLNodes")) ? "NULL" :
-                                                          Utility.GetStringValue(rowAttr, "XMLNodes");
+                        string val = String.IsNullOrEmpty(Utility.GetStringValue(rowAttr, "Sharepoint_Column")) ? "NULL" :
+                                                          Utility.GetStringValue(rowAttr, "Sharepoint_Column");
                         xmlElementValues.Add("'" + item.Element(val).Value + "'");
                     }
 

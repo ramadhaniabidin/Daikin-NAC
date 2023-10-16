@@ -165,7 +165,32 @@ namespace Daikin.ERecieverLogics.Common
             }
         }
 
+        public void InsertAutoCodeBatch(string TableName, string DetailName, int TransID, string LastName, int ItemID, string ColumnName, string Format, int LenghtOfString)
+        {
+            try
+            {
+                db.OpenConnection(ref conn);
+                db.cmd.CommandText = "dbo.usp_AutoCodeBatch_Save";
+                db.cmd.CommandType = CommandType.StoredProcedure;
+                db.cmd.Parameters.Clear();
+                db.AddInParameter(db.cmd, "TableName", TableName);
+                db.AddInParameter(db.cmd, "DetailName", DetailName);
+                db.AddInParameter(db.cmd, "TransID", TransID);
+                db.AddInParameter(db.cmd, "LastName", LastName);
+                db.AddInParameter(db.cmd, "ItemID", ItemID);
+                db.AddInParameter(db.cmd, "ColumnName", ColumnName);
+                db.AddInParameter(db.cmd, "Format", Format);
+                db.AddInParameter(db.cmd, "LenghtOfString", LenghtOfString);
 
+                db.cmd.ExecuteNonQuery();
+                db.CloseConnection(ref conn);
+            }
+            catch(Exception ex)
+            {
+                db.CloseConnection(ref conn);
+                throw ex;
+            }
+        }
 
         public void InsertApprovalLogAfterRevise(string ListName)
         {
@@ -261,7 +286,7 @@ namespace Daikin.ERecieverLogics.Common
             }
         }
 
-        public void AutoCodeBatch(string ListName, int ItemID)
+        public void AutoCodeBatch(string ListName, int ItemID, int TransID)
         {
             try
             {
@@ -271,6 +296,7 @@ namespace Daikin.ERecieverLogics.Common
                 db.cmd.Parameters.Clear();
                 db.AddInParameter(db.cmd, "ListName", ListName);
                 db.AddInParameter(db.cmd, "ItemID", ItemID);
+                db.AddInParameter(db.cmd, "TransID", TransID);
 
                 db.cmd.ExecuteNonQuery();
                 db.CloseConnection(ref conn);

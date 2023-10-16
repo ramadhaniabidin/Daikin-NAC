@@ -153,84 +153,84 @@ namespace Daikin.EReceiver.MyEventReceiver
                     DataTable distinctValues = view.ToTable(true, "Sharepoint_Column", "Database_Column", "Table_Detail"); //distint berdasarkan SPColumnName & TableName
                     DataTable dtAttrDetailsFilter = dtAttrDetails.Clone(); //clone table distint, nnti buat store data specific DetailCode
 
-                    foreach (DataRow rowDistinct in distinctValues.Rows) //looping ke each distinct values buat get data (TableName, SPColumnName)
+                    DefaultAttrModel attr = new DefaultAttrModel();
+                    attr.code = listItem["Title"].ToString();
+                    attr.item_id = listItem.ID;
+                    attr.TableName = Utility.GetStringValue(distinctValues.Rows[1], "Table_Detail");
+                    attr.SPColumnName = "Details";
+                    attr.XMLString = listItem["Details"].ToString();
+
+                    // dia ngematching di table mapping/filter berdasarkan defined data (TableName, SPColumnname)
+                    DataRow[] matchingRows = dtAttrDetails.Select();
+                    dtAttrDetailsFilter.Clear();
+
+                    if (!dtAttrDetails.Columns.Contains("ID"))
                     {
-                        DefaultAttrModel attr = new DefaultAttrModel();
-                        // define Table Name, SpColumnName dr current distinct
-                        attr.code = listItem["Title"].ToString();
-                        attr.item_id = listItem.ID;
-                        attr.TableName = Utility.GetStringValue(rowDistinct, "Table_Detail");
-                        attr.SPColumnName = "Details";
-                        attr.XMLString = listItem[Utility.GetStringValue(rowDistinct, "Sharepoint_Column")].ToString();
+                        dtAttrDetailsFilter.Rows.Add("", "ID", "ID");
+                    }
 
-                        // dia ngematching di table mapping/filter berdasarkan defined data (TableName, SPColumnname)
-                        DataRow[] matchingRows = dtAttrDetails.Select($"Sharepoint_Column = '{attr.SPColumnName}' AND Database_Column = '{attr.TableName}'");
-                        dtAttrDetailsFilter.Clear();
+                    if (!dtAttrDetails.Columns.Contains("Header_ID"))
+                    {
+                        dtAttrDetailsFilter.Rows.Add("", "Header_ID", "Header_ID");
+                    }
 
-                        if (dtAttrDetails.Columns.Contains("ID"))
+                    //dtAttrDetailsFilter.
+                    foreach (DataRow matchingRow in matchingRows)
+                    {
+                        // dimasukkin ke cloning table di atas, jd isi cloning table itu sama kaya table mappingan cuman udh filtern
+                        dtAttrDetailsFilter.ImportRow(matchingRow);
+                    }
+
+                    XElement root = XElement.Parse(attr.XMLString);
+                    foreach (var item in root.Descendants("Item"))
+                    {
+                        if (XMLManager.GetValue(item, "ID") == "NOT EXISTS")
                         {
-                            dtAttrDetailsFilter.Rows.Add("", "ID", "ID");
+                            XMLManager.AddAttribute(item, "ID", "");
                         }
 
-                        if (dtAttrDetails.Columns.Contains("Header_ID"))
+                        if (XMLManager.GetValue(item, "Header_ID") == "NOT EXISTS")
                         {
-                            dtAttrDetailsFilter.Rows.Add("", "Header_ID", "Header_ID");
+                            XMLManager.AddAttribute(item, "Header_ID", header_id.ToString());
                         }
 
-                        //dtAttrDetailsFilter.
-                        foreach (DataRow matchingRow in matchingRows)
+                        ////set value
+                        //item.Element("Header_ID").Value = header_id.ToString();
+
+                        if (string.IsNullOrEmpty(XMLManager.GetValue(item, "ID")))
                         {
-                            // dimasukkin ke cloning table di atas, jd isi cloning table itu sama kaya table mappingan cuman udh filtern
-                            dtAttrDetailsFilter.ImportRow(matchingRow);
+                            item.Element("ID").Value = Guid.NewGuid().ToString();
                         }
+                    }
 
-                        XElement root = XElement.Parse(attr.XMLString);
-                        foreach (var item in root.Descendants("Item"))
-                        {
-                            if (XMLManager.GetValue(item, "ID") == "NOT EXISTS")
-                            {
-                                XMLManager.AddAttribute(item, "ID", "");
-                            }
+                    attr.XMLString = root.ToString();
+                    List<string> listQueryDetails = XMLManager.ConvertDataTableToSQL(dtAttrDetailsFilter, attr);
+                    detailQuery = "DELETE " + attr.TableName + " WHERE Header_ID = " + header_id.ToString();
+                    func.ExecQuery(detailQuery);
 
-                            if (XMLManager.GetValue(item, "Header_ID") == "NOT EXISTS")
-                            {
-                                XMLManager.AddAttribute(item, "Header_ID", header_id.ToString());
-                            }
+                    #region AutoCode
 
-                            ////set value
-                            //item.Element("Header_ID").Value = header_id.ToString();
+                    #endregion
 
-                            if (string.IsNullOrEmpty(XMLManager.GetValue(item, "ID")))
-                            {
-                                item.Element("ID").Value = Guid.NewGuid().ToString();
-                            }
-                        }
+                    tblType = "Executing Query Detail";
+                    foreach (string query in listQueryDetails)
+                    {
+                        lastloop = i;
+                        detailQuery = query;
+                        fullQuery = query; //Save Log
+                        func.ExecQuery(query);
 
-                        attr.XMLString = root.ToString();
-                        List<string> listQueryDetails = XMLManager.ConvertDataTableToSQL(dtAttrDetailsFilter, attr);
-                        detailQuery = "DELETE " + attr.TableName + " WHERE Header_ID = " + header_id.ToString();
-                        func.ExecQuery(detailQuery);
-
-                        #region AutoCode
-
-                        #endregion
-
-                        tblType = "Executing Query Detail";
-                        foreach (string query in listQueryDetails)
-                        {
-                            lastloop = i;
-                            detailQuery = query;
-                            fullQuery = query; //Save Log
-                            func.ExecQuery(query);
-
-                            i++;
-                            //perlu create log untuk simpen row detail mana yg fail 
-                        }
+                        i++;
+                        //perlu create log untuk simpen row detail mana yg fail 
                     }
                     detailQuery = "";
                 }
 
-                #endregion 
+                #endregion
+
+                #region InsertAutoCodeBatch
+                func.AutoCodeBatch(ListName, ID, header_id);
+                #endregion
 
                 var successLog = new EventReceiverLogModel()
                 {
