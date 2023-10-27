@@ -22,6 +22,7 @@ namespace Daikin.BusinessLogics.Common
         //public const string SpSiteUrl = "http://drc-hr/Lists/Scheduled%20Payment";
         //public const string SpSiteUrl ="https://sp3.daikin.co.id:8443/Lists/Scheduled%20Payment"; 
         public const string SpSiteUrl = "https://sp3.daikin.co.id:8443/";
+        public const string SpSiteUrl_DEV = "http://spdev:3473/";
         private const string ENCRYPTION_KEY = "G21Express";
 
         #region Encryption/decryption
@@ -497,7 +498,7 @@ namespace Daikin.BusinessLogics.Common
             }
             catch
             {
-                return "Data Source=dbs1.daikin.co.id;Initial Catalog=Daikin_Nintex;User ID=nintex;Password=Daikin#12345";
+                return "Data Source=SPDEV;Initial Catalog=Daikin_Nintex_Dev;User ID=sa;Password=7CxNsjEhHcWRgd*4FNY^";
             }
         }
         #endregion

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Daikin.EReceiverLogics.Common.Model
+namespace Daikin.ERecieverLogics.Common.Model
 {
     public class AttachmentModel
     {

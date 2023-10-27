@@ -1,5 +1,6 @@
 ﻿using Daikin.EReceiverLogics.Common.Model;
 using Daikin.ERecieverLogics.Common;
+using Daikin.ERecieverLogics.Common.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
