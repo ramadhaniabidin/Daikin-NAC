@@ -3,6 +3,9 @@
   <assemblies>
     <projectOutputAssembly location="Daikin.BusinessLogics.dll" deploymentTarget="GlobalAssemblyCache" projectPath="..\Daikin.BusinessLogics\Daikin.BusinessLogics.csproj" />
   </assemblies>
+  <features>
+    <featureReference itemId="0ea42fd6-0f62-47e1-a763-ee75cb988952" />
+  </features>
   <projectItems>
     <projectItemReference itemId="443731d2-eb07-4f8b-b17c-16ee28a2a8e3" />
     <projectItemReference itemId="4b5a99e4-f8b2-4be7-b078-fca8318818c7" />

@@ -151,7 +151,7 @@ namespace Daikin.BusinessLogics.Common
                 DataTable dt = new DataTable();
                 dt.Load(reader);
                 db.CloseDataReader(reader);
-                db.CloseConnection(ref conn);
+                db.CloseConnection(ref conn, true);
 
                 var id = dt.Rows[0].Field<int>(0);
 

@@ -45,10 +45,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
@@ -57,19 +59,20 @@
     <Reference Include="Microsoft.SharePoint.Client.ServerRuntime" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Layouts\Daikin.Application\Home.aspx.cs">
-      <DependentUpon>Home.aspx</DependentUpon>
+    <Compile Include="HomeWebPart\HomeWebPart.ascx.cs">
+      <DependentUpon>HomeWebPart.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="HomeWebPart\HomeWebPart.ascx.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HomeWebPart.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\List.aspx.cs">
+      <DependentUpon>List.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Layouts\Daikin.Application\Home.aspx.designer.cs">
-      <DependentUpon>Home.aspx.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Layouts\Daikin.Application\Modules\Home.aspx.cs">
-      <DependentUpon>Home.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Layouts\Daikin.Application\Modules\Home.aspx.designer.cs">
-      <DependentUpon>Home.aspx.cs</DependentUpon>
+    <Compile Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\List.aspx.designer.cs">
+      <DependentUpon>List.aspx.cs</DependentUpon>
     </Compile>
     <Compile Include="Layouts\Daikin.Application\WebServices\NACWebService.asmx.cs">
       <DependentUpon>NACWebService.asmx</DependentUpon>
@@ -78,10 +81,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Features\Feature1\Feature1.feature">
+      <FeatureId>{0ea42fd6-0f62-47e1-a763-ee75cb988952}</FeatureId>
+    </None>
+    <None Include="HomeWebPart\HomeWebPart.webpart" />
+    <None Include="HomeWebPart\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{ff393462-541d-4623-ba5c-412654f7e12b}</SharePointProjectItemId>
+    </None>
     <None Include="Images\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{4b5a99e4-f8b2-4be7-b078-fca8318818c7}</SharePointProjectItemId>
     </None>
     <None Include="key.snk" />
+    <None Include="Layouts\JS\angular.min.js.map" />
+    <None Include="Layouts\JS\bootstrap.min.js.map" />
     <None Include="Layouts\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{443731d2-eb07-4f8b-b17c-16ee28a2a8e3}</SharePointProjectItemId>
     </None>
@@ -93,10 +105,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\" />
     <Folder Include="Images\Daikin.Application\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Features\Feature1\Feature1.Template.xml">
+      <DependentUpon>Feature1.feature</DependentUpon>
+    </Content>
+    <Content Include="HomeWebPart\Elements.xml" />
+    <Content Include="HomeWebPart\HomeWebPart.ascx">
+      <Generator>SharePointWebPartCodeGenerator</Generator>
+      <LastGenOutput>HomeWebPart.ascx.g.cs</LastGenOutput>
+    </Content>
     <Content Include="Layouts\Daikin.Application\Assets\Background Nintex-01.jpg" />
     <Content Include="Layouts\Daikin.Application\Assets\Background Nintex-02.jpg" />
     <Content Include="Layouts\Daikin.Application\Assets\Claim And Reimbursement\Icon Daikin Nintex-05.png" />
@@ -131,8 +150,21 @@
     <Content Include="Layouts\Daikin.Application\Assets\Non Commercial\Icon Daikin Nintex-27.png" />
     <Content Include="Layouts\Daikin.Application\Assets\Task List\Icon Daikin Nintex-28.png" />
     <Content Include="Layouts\Daikin.Application\Assets\Task List\Icon Daikin Nintex-29.png" />
-    <Content Include="Layouts\Daikin.Application\Home.aspx" />
-    <Content Include="Layouts\Daikin.Application\Modules\Home.aspx" />
+    <Content Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\List.aspx" />
+    <Content Include="Layouts\JS\angular.min.js" />
+    <Content Include="Layouts\JS\Attachments.js" />
+    <Content Include="Layouts\JS\BaseLogic.js" />
+    <Content Include="Layouts\JS\bootstrap.min.js" />
+    <Content Include="Layouts\JS\Common\TriggerSubmit.js" />
+    <Content Include="Layouts\JS\HistoryLog.js" />
+    <Content Include="Layouts\JS\jquery-3.3.1.min.js" />
+    <Content Include="Layouts\JS\jquery-ui.min.js" />
+    <Content Include="Layouts\JS\jquery.min.js" />
+    <Content Include="Layouts\JS\MenuGallery.js" />
+    <Content Include="Layouts\JS\ng-file-upload.min.js" />
+    <Content Include="Layouts\JS\Pager.js" />
+    <Content Include="Layouts\JS\ui-bootstrap-fa.js" />
+    <Content Include="Layouts\JS\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="Layouts\Daikin.Application\WebServices\NACWebService.asmx" />
   </ItemGroup>
   <ItemGroup>

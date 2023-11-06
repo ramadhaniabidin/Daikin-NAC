@@ -7,9 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Daikin.Application.Layouts.Daikin.Application {
+namespace Daikin.Application.Layouts.Daikin.Application.Modules.ClaimReimbursement {
     
     
-    public partial class Home {
+    public partial class List {
     }
 }

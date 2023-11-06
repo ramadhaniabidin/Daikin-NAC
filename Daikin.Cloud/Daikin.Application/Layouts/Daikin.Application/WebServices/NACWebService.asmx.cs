@@ -28,8 +28,8 @@ namespace Daikin.Application.Layouts.WebServices {
             SPList list = web.Lists[ListName];
             web.AllowUnsafeUpdates = true;
             
-            string form_status = "";
-            int ID = 0;
+            //string form_status = "";
+            //int ID = 0;
 
             string fullQuery = string.Empty;
             int lastloop = 0;
@@ -45,6 +45,9 @@ namespace Daikin.Application.Layouts.WebServices {
                 DataTable dt = func.GetMappingAttributes(ListName);
                 DataTable dtAttrDetails = func.GetMappingAttributeDetails(ListName);
 
+                //get form status
+                string formStatus = (String)listItem["Form_x0020_Status"];
+
                 string sql = string.Empty;
                 List<string> values = new List<string>();
 
@@ -59,7 +62,7 @@ namespace Daikin.Application.Layouts.WebServices {
                     if (i == 0)
                     {
                         string SQLTableName = Utility.GetStringValue(row, "Table_Header");
-                        sql = "insert into " + SQLTableName;
+                        sql = (formStatus == "Start"? "insert into " : "update ") + SQLTableName;
                         sql += "(" + Utility.GetStringValue(row, "Database_Column_Name");
                     }
                     else
@@ -68,10 +71,15 @@ namespace Daikin.Application.Layouts.WebServices {
                     }
 
                     #region Values
-                    if (SPColumnType == 1 || SPColumnType == 2 || SPColumnType == 3) //Single or Multiple Line of Text or Number
+                    if (SPColumnType == 1 || SPColumnType == 2) //Single or Multiple Line of Text
                     {
                         values.Add(listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] == null ?
                                  "NULL " : "'" + listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] + "'");
+                    }
+                    else if (SPColumnType == 3) //Number
+                    {
+                        values.Add(listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] == null ?
+                        "NULL " : "CAST('" + listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] + "' AS NUMERIC) ");
                     }
                     else if (SPColumnType == 4) //datetime
                     {
@@ -203,10 +211,6 @@ namespace Daikin.Application.Layouts.WebServices {
                     List<string> listQueryDetails = XMLManager.ConvertDataTableToSQL(dtAttrDetailsFilter, attr);
                     detailQuery = "DELETE " + attr.TableName + " WHERE Header_ID = " + header_id.ToString();
                     func.ExecQuery(detailQuery);
-
-                    #region AutoCode
-
-                    #endregion
 
                     tblType = "Executing Query Detail";
                     foreach (string query in listQueryDetails)
