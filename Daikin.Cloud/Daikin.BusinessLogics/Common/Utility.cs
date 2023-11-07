@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SharePoint;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -1099,6 +1100,78 @@ namespace Daikin.BusinessLogics.Common
             string xmlstr;
             xmlstr = sr.ReadToEnd();
             return (xmlstr);
+        }
+
+        static public string getColumnValue(int SPColumnType, DataRow row, SPListItem listItem)
+        {
+            string val = "";
+
+            #region Values
+            if (SPColumnType == 1 || SPColumnType == 2) //Single or Multiple Line of Text
+            {
+                val = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] == null ?
+                         "NULL " : "'" + listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] + "'";
+            }
+            else if (SPColumnType == 3) //Number
+            {
+                val = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] == null ?
+                "NULL " : "CAST('" + listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] + "' AS NUMERIC) ";
+            }
+            else if (SPColumnType == 4) //datetime
+            {
+
+                DateTime dateTime = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] == null ?
+                       DateTime.Parse("1900-01-01") : (DateTime)listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")];
+
+                val = "'" + dateTime.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+
+            }
+            else if (SPColumnType == 6) //Yes or No
+            {
+                if (listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")].ToString().ToUpper() == "TRUE")
+                {
+                    val = "1";
+                }
+                else
+                {
+                    val = "0";
+                }
+            }
+            else if (SPColumnType == 7 || SPColumnType == 5) //Person or Group || Lookup
+            {
+                //string originalValue = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")].ToString();
+                //Console.WriteLine(originalValue);
+                string currentValue = "";
+                var gets = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")]?.ToString().Split('#');
+                if (gets?.Length > 1)
+                {
+                    // Temporary bypass
+                    currentValue = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")]?.ToString().Split('#')[1];
+                    val = "'" + currentValue + "'";
+                }
+                else
+                {
+                    val = "NULL";
+                }
+
+                //string currentValue = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")].ToString().Split('#')[1];
+                //SPUser user = properties.Web.Users.GetByID(new SPFieldLookupValue(currentValue).LookupId);
+            }
+            else if (SPColumnType == 9) // Choice
+            {
+                string currVal = Utility.GetStringValue(row, "Sharepoint_Column_Name")?.ToString();
+                if (!string.IsNullOrWhiteSpace(currVal))
+                {
+                    val = $"'{currVal}'";
+                }
+                else
+                {
+                    val = "NULL";
+                }
+            }
+            #endregion
+
+            return val;
         }
 
 

@@ -1,0 +1,43 @@
+﻿.ms-webpart-titleText.ms-webpart-titleText {
+    display: none;
+}
+
+#s4-bodyContainer {
+    padding-bottom: 0px;
+}
+
+#pageTitle, #sideNavBox {
+    display: none;
+}
+
+#contentBox {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.hidden{ visibility:hidden;}
+
+.panel {
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+    border-radius: 25px;
+    box-shadow: 1px 3px 10px rgba(0,0,0,.05);
+}
+
+input, select, textarea, .ms-inputBox, .ip-container, .ip-item span {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.no-shadow {
+    box-shadow: none !important;
+}
+
+#DeltaPlaceHolderMain {
+    background-image: none;
+}
+
+#s4-ribbonrow{
+    display:none;
+}

@@ -1,0 +1,12 @@
+﻿body
+{
+}
+
+.table {
+    position: static !important;
+    margin-bottom: 15px;
+}
+
+.inline-input{
+    display: inline
+}

@@ -68,6 +68,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Daikin.BusinessLogics\Daikin.BusinessLogics.csproj">
+      <Project>{79572512-01F1-488D-B6ED-9F1A5A014555}</Project>
+      <Name>Daikin.BusinessLogics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Daikin.JobSchedulersLogic\Daikin.JobSchedulersLogic.csproj">
       <Project>{74C50DF3-6B6F-422F-B509-867456EE1054}</Project>
       <Name>Daikin.JobSchedulersLogic</Name>

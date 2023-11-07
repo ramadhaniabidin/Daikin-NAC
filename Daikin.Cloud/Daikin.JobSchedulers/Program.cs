@@ -179,6 +179,7 @@ namespace Daikin.JobSchedulers
                         spItem["Title"] = autoCode;
                         spItem["Request No"] = autoCode;
                         spItem["Approval Status"] = "Generated";
+                        spItem["Approval Status ID"] = 3;
                         spItem["Workflow Status"] = "Approval";
                         spItem["Form Status"] = "Start";
                         spItem.Update();

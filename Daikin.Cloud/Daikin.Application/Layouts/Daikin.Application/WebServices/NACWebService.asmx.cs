@@ -45,103 +45,71 @@ namespace Daikin.Application.Layouts.WebServices {
                 DataTable dt = func.GetMappingAttributes(ListName);
                 DataTable dtAttrDetails = func.GetMappingAttributeDetails(ListName);
 
-                //get form status
+                //get form status && Approval Status
                 string formStatus = (String)listItem["Form_x0020_Status"];
+                string approvalStatus = (String)listItem["Approval_x0020_Status"];
 
                 string sql = string.Empty;
                 List<string> values = new List<string>();
 
                 int i = 0;
                 tblType = "Table Header";
-                foreach (DataRow row in dt.Rows)
+                if (formStatus == "Start" &&  (approvalStatus == "" || approvalStatus == null))
                 {
-                    lastloop = i;
-                    lastcol = Utility.GetStringValue(row, "Sharepoint_Column_Name");
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        lastloop = i;
+                        lastcol = Utility.GetStringValue(row, "Sharepoint_Column_Name");
 
-                    int SPColumnType = Utility.GetIntValue(row, "Sharepoint_Column_Type");
-                    if (i == 0)
-                    {
-                        string SQLTableName = Utility.GetStringValue(row, "Table_Header");
-                        sql = (formStatus == "Start"? "insert into " : "update ") + SQLTableName;
-                        sql += "(" + Utility.GetStringValue(row, "Database_Column_Name");
-                    }
-                    else
-                    {
-                        sql += "," + Utility.GetStringValue(row, "Database_Column_Name");
-                    }
-
-                    #region Values
-                    if (SPColumnType == 1 || SPColumnType == 2) //Single or Multiple Line of Text
-                    {
-                        values.Add(listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] == null ?
-                                 "NULL " : "'" + listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] + "'");
-                    }
-                    else if (SPColumnType == 3) //Number
-                    {
-                        values.Add(listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] == null ?
-                        "NULL " : "CAST('" + listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] + "' AS NUMERIC) ");
-                    }
-                    else if (SPColumnType == 4) //datetime
-                    {
-
-                        DateTime dateTime = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")] == null ?
-                               DateTime.Parse("1900-01-01") : (DateTime)listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")];
-
-                        values.Add("'" + dateTime.ToString("yyyy-MM-dd HH:mm:ss") + "'");
-
-                    }
-                    else if (SPColumnType == 6) //Yes or No
-                    {
-                        if (listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")].ToString().ToUpper() == "TRUE")
+                        int SPColumnType = Utility.GetIntValue(row, "Sharepoint_Column_Type");
+                        if (i == 0)
                         {
-                            values.Add("1");
+                            string SQLTableName = Utility.GetStringValue(row, "Table_Header");
+                            sql = "insert into " + SQLTableName;
+                            sql += "(" + Utility.GetStringValue(row, "Database_Column_Name");
                         }
                         else
                         {
-                            values.Add("0");
-                        }
-                    }
-                    else if (SPColumnType == 7 || SPColumnType == 5) //Person or Group || Lookup
-                    {
-                        //string originalValue = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")].ToString();
-                        //Console.WriteLine(originalValue);
-                        string currentValue = "";
-                        var gets = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")]?.ToString().Split('#');
-                        if (gets?.Length > 1)
-                        {
-                            // Temporary bypass
-                            currentValue = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")]?.ToString().Split('#')[1];
-                            values.Add("'" + currentValue + "'");
-                        }
-                        else
-                        {
-                            values.Add("NULL");
+                            sql += "," + Utility.GetStringValue(row, "Database_Column_Name");
                         }
 
-                        //string currentValue = listItem[Utility.GetStringValue(row, "Sharepoint_Column_Name")].ToString().Split('#')[1];
-                        //SPUser user = properties.Web.Users.GetByID(new SPFieldLookupValue(currentValue).LookupId);
+                        values.Add(Utility.getColumnValue(SPColumnType, row, listItem));
+
+                        i++;
                     }
-                    else if (SPColumnType == 9) // Choice
+
+                    sql += ")";
+
+                    string combineValues = string.Join(",", values);
+
+                    fullQuery = sql + " OUTPUT inserted.ID VALUES (" + combineValues + ")";
+                }
+                else
+                {
+                    foreach (DataRow row in dt.Rows)
                     {
-                        string currVal = Utility.GetStringValue(row, "Sharepoint_Column_Name")?.ToString();
-                        if (!string.IsNullOrWhiteSpace(currVal))
+                        lastloop = i;
+                        lastcol = Utility.GetStringValue(row, "Sharepoint_Column_Name");
+
+                        int SPColumnType = Utility.GetIntValue(row, "Sharepoint_Column_Type");
+                        if (i == 0)
                         {
-                            values.Add($"'{currVal}'");
+                            string SQLTableName = Utility.GetStringValue(row, "Table_Header");
+                            sql = "update " + SQLTableName;
+                            sql += " set " + Utility.GetStringValue(row, "Database_Column_Name") + "=" + Utility.getColumnValue(SPColumnType, row, listItem);
                         }
                         else
                         {
-                            values.Add("NULL");
+                            sql += ", " + Utility.GetStringValue(row, "Database_Column_Name") + "=" + Utility.getColumnValue(SPColumnType, row, listItem);
                         }
+
+                        i++;
                     }
-                    #endregion
-                    i++;
+                    
+
+                    fullQuery = sql + " OUTPUT inserted.ID WHERE Item_ID = " + ListItemID;
                 }
 
-                sql += ")";
-
-                string combineValues = string.Join(",", values);
-
-                fullQuery = sql + " OUTPUT inserted.ID VALUES (" + combineValues + ")";
                 detailQuery = fullQuery;
 
                 lastloop = 0;
@@ -229,15 +197,18 @@ namespace Daikin.Application.Layouts.WebServices {
                 #endregion
 
                 #region InsertAutoCodeBatch
-                func.AutoCodeBatch(ListName, ListItemID, header_id);
+                if (formStatus == "Start" && (approvalStatus == "" || approvalStatus == null))
+                {
+                    func.AutoCodeBatch(ListName, ListItemID, header_id);
+                }
                 #endregion
 
                 var successLog = new LogModel()
                 {
-                    EventName = "ITEM ADDED",
+                    EventName = (formStatus == "Start" && approvalStatus == "")? "Item Added" : "Item Updated",
                     ListItemId = ListItemID,
                     ListName = ListName,
-                    SysMessage = "Insert data success" + ((dtAttrDetails.Rows.Count > 0) ? ", with details." : "."),
+                    SysMessage = (formStatus == "Start" && approvalStatus == "")? ("Insert data success" + ((dtAttrDetails.Rows.Count > 0) ? ", with details." : ".")) : "Update data success",
                     CompiledQuery = ""
                 };
                 func.InsertLog(successLog);
@@ -257,6 +228,12 @@ namespace Daikin.Application.Layouts.WebServices {
                 #endregion
                 throw ex;
             }
+        }
+
+        [WebMethod]
+        public void ApprovalAction()
+        {
+
         }
     }
 }
