@@ -1,7 +1,8 @@
-﻿function SaveSubmit(ListName, ListItemID) {
-    param = {        
+﻿function SaveApproval(approvalValue, ListName, ListItemID) {
+    param = {
+        approvalValue: approvalValue,
         ListName: ListName,
-        ListItemID: ListItemID
+        ListItemID: ListItemID,
     };
 
     console.log('Save & Submit Triggered.');
@@ -11,7 +12,7 @@
         jQuery.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "/_layouts/15/Daikin.Application/WebServices/NACWebService.asmx/SaveUpdate",
+            url: "/_layouts/15/Daikin.Application/WebServices/NACWebService.asmx/ApproveRequest",
             data: JSON.stringify(param),
             dataType: "json",
             async: true,

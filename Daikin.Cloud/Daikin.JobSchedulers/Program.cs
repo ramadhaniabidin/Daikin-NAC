@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
+using Newtonsoft.Json;
 
 namespace Daikin.JobSchedulers
 {

@@ -59,6 +59,20 @@
     <Reference Include="Microsoft.SharePoint.Client.ServerRuntime" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlTemplates\Daikin.Application\ApprovalHistoryLog.ascx.cs">
+      <DependentUpon>ApprovalHistoryLog.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ControlTemplates\Daikin.Application\ApprovalHistoryLog.ascx.designer.cs">
+      <DependentUpon>ApprovalHistoryLog.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlTemplates\Daikin.Application\Loading.ascx.cs">
+      <DependentUpon>Loading.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ControlTemplates\Daikin.Application\Loading.ascx.designer.cs">
+      <DependentUpon>Loading.ascx.cs</DependentUpon>
+    </Compile>
     <Compile Include="HomeWebPart\HomeWebPart.ascx.cs">
       <DependentUpon>HomeWebPart.ascx</DependentUpon>
     </Compile>
@@ -74,6 +88,17 @@
     <Compile Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\List.aspx.designer.cs">
       <DependentUpon>List.aspx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\Memo.aspx.cs">
+      <DependentUpon>Memo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\Memo.aspx.designer.cs">
+      <DependentUpon>Memo.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\Daikin.Application\WebServices\ClaimReimbursement.asmx.cs">
+      <DependentUpon>ClaimReimbursement.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Layouts\Daikin.Application\WebServices\NACWebService.asmx.cs">
       <DependentUpon>NACWebService.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -81,6 +106,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ControlTemplates\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{a79692be-b5b1-41dc-8d2f-58d001aeaef7}</SharePointProjectItemId>
+    </None>
     <None Include="Features\Feature1\Feature1.feature">
       <FeatureId>{0ea42fd6-0f62-47e1-a763-ee75cb988952}</FeatureId>
     </None>
@@ -142,6 +170,8 @@
     <Folder Include="Images\Daikin.Application\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ControlTemplates\Daikin.Application\ApprovalHistoryLog.ascx" />
+    <Content Include="ControlTemplates\Daikin.Application\Loading.ascx" />
     <Content Include="Features\Feature1\Feature1.Template.xml">
       <DependentUpon>Feature1.feature</DependentUpon>
     </Content>
@@ -217,6 +247,8 @@
     <Content Include="Layouts\Daikin.Application\CSS\navigation.css" />
     <Content Include="Layouts\Daikin.Application\CSS\NintexForms\style.css" />
     <Content Include="Layouts\Daikin.Application\CSS\style.css" />
+    <Content Include="Layouts\Daikin.Application\JS\Modules\ClaimReimbursement.js" />
+    <Content Include="Layouts\Daikin.Application\JS\Modules\Memo.js" />
     <Content Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\List.aspx" />
     <Content Include="Layouts\Daikin.Application\JS\angular.min.js" />
     <Content Include="Layouts\Daikin.Application\JS\Attachments.js" />
@@ -232,6 +264,8 @@
     <Content Include="Layouts\Daikin.Application\JS\Pager.js" />
     <Content Include="Layouts\Daikin.Application\JS\ui-bootstrap-fa.js" />
     <Content Include="Layouts\Daikin.Application\JS\ui-bootstrap-tpls-2.5.0.min.js" />
+    <Content Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\Memo.aspx" />
+    <Content Include="Layouts\Daikin.Application\WebServices\ClaimReimbursement.asmx" />
     <Content Include="Layouts\Daikin.Application\WebServices\NACWebService.asmx" />
   </ItemGroup>
   <ItemGroup>

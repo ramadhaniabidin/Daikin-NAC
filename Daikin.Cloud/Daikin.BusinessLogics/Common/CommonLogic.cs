@@ -286,6 +286,35 @@ namespace Daikin.BusinessLogics.Common
             }
         }
 
+        public List<OptionModel> DropDownLists(string Table, int NeedFirstOption, string FirstDescription, string FirstValue, string FieldCode, string FieldName)
+        {
+            try
+            {
+                db.OpenConnection(ref conn);
+                db.cmd.CommandText = "dbo.usp_Utility_DropDowns";
+                db.cmd.CommandType = CommandType.StoredProcedure;
+                db.cmd.Parameters.Clear();
+                db.AddInParameter(db.cmd, "Table", Table);
+                db.AddInParameter(db.cmd, "NeedFirstOption", NeedFirstOption);
+                db.AddInParameter(db.cmd, "FirstDescription", FirstDescription);
+                db.AddInParameter(db.cmd, "FirstValue", FirstValue);
+                db.AddInParameter(db.cmd, "FieldCode", FieldCode);
+                db.AddInParameter(db.cmd, "FieldName", FieldName);
+
+                SqlDataReader reader = db.cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                db.CloseConnection(ref conn);
+                return Utility.ConvertDataTableToList<OptionModel>(dt);
+            }
+            catch (Exception ex)
+            {
+                db.CloseConnection(ref conn);
+                throw ex;
+            }
+        }
+
+
         public void AutoCodeBatch(string ListName, int ItemID, int TransID)
         {
             try

@@ -117,7 +117,7 @@ namespace Daikin.Application.Layouts.Daikin.Application.WebServices
             try
             {
                 var items = ctrlGen.ModuleOptions(ListName);
-                var listBranch = fcGen.BindingMasterSPList("Master Business Area", "Title", "Title", "All");
+                var listBranch = new CommonLogic().DropDownLists("Master Business Area",1, "All","", "Code","Branches");
                 SPUser user = SPContext.Current.Web.CurrentUser;
                 int SPUserId = user.ID;
 
@@ -125,7 +125,6 @@ namespace Daikin.Application.Layouts.Daikin.Application.WebServices
 
                 List<string> listBranchName = new Utility().GetMappingBranchCurrentLogin(user.LoginName);
                 //var listApproverRole = sp.BindingMasterApproverSPListCondition(ListName);
-                var listApproverRole2 = new Utility().GetCommercialsPendingRoles();
 
 
                 string Branch = "";
@@ -146,7 +145,6 @@ namespace Daikin.Application.Layouts.Daikin.Application.WebServices
                     Items = items,
                     listBranch = listBranch,
                     Branch = Branch,
-                    listApproverRole2 = listApproverRole2,
                 };
                 return new JavaScriptSerializer().Serialize(result);
             }

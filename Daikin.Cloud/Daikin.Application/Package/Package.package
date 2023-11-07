@@ -9,5 +9,6 @@
   <projectItems>
     <projectItemReference itemId="443731d2-eb07-4f8b-b17c-16ee28a2a8e3" />
     <projectItemReference itemId="4b5a99e4-f8b2-4be7-b078-fca8318818c7" />
+    <projectItemReference itemId="a79692be-b5b1-41dc-8d2f-58d001aeaef7" />
   </projectItems>
 </package>

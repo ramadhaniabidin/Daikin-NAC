@@ -12,6 +12,9 @@ using System.Web.Script.Services;
 using System.Web.Services;
 using System.Xml.Linq;
 using Daikin.BusinessLogics.Common.Model;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace Daikin.Application.Layouts.WebServices {
     [WebService(Namespace = "http://spdev:3473/",
@@ -231,9 +234,54 @@ namespace Daikin.Application.Layouts.WebServices {
         }
 
         [WebMethod]
-        public void ApprovalAction()
+        public string ApproveRequest(string approvalValue, string ListName, int ListItemID)
         {
 
+            try
+            {
+                string token = Aprroval.GetToken();
+                var tasks = Aprroval.GetTasks();
+
+                Console.WriteLine(JsonConvert.SerializeObject(tasks));
+                var task = tasks.FirstOrDefault(t => t.name.ToString().Contains($"{ListItemID}"));
+
+                string task_id = Convert.ToString(task["id"]);
+                string assignmentID = Convert.ToString(task["taskAssignments"][0]["id"]);
+
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var payload = new { outcome = approvalValue };
+                var jsonPayload = JsonConvert.SerializeObject(payload);
+                var stringContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                string url = $"https://us.nintex.io/workflows/v2/tasks/{task_id}/assignments/{assignmentID}";
+                
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
+                request.Content = stringContent;
+
+                var response = client.SendAsync(request).Result;
+
+
+                var responseBody = response.Content.ReadAsStringAsync();
+
+                var result = new
+                {
+                    ProcessSuccess = true,
+                    InfoMessage = "OK"
+                };
+                return new JavaScriptSerializer().Serialize(result);
+            }
+
+            catch (Exception ex)
+            {
+                var result = new
+                {
+                    ProcessSuccess = false,
+                    InfoMessage = ex.Message
+                };
+                return new JavaScriptSerializer().Serialize(result);
+            }
         }
     }
 }

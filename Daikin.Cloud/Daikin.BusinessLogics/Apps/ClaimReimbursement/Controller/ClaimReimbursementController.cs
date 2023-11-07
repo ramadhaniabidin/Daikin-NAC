@@ -152,7 +152,6 @@ namespace Daikin.BusinessLogics.Apps.ClaimReimbursement.Controller
         }
 
 
-
         public List<OptionModel> GetOptions(string Table, string Code, string Name, string FilterBy, string FilterValue, string Extra)
         {
             dt = new DataTable();

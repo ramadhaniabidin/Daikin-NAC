@@ -1,7 +1,9 @@
-﻿using Microsoft.SharePoint;
+﻿using Daikin.BusinessLogics.Common.Model;
+using Microsoft.SharePoint;
 using Microsoft.SharePoint.Workflow;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
