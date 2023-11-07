@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace Daikin.BusinessLogics.Common
 {
@@ -28,11 +28,11 @@ namespace Daikin.BusinessLogics.Common
                     grant_type = System.Configuration.ConfigurationManager.AppSettings["NAC:grant_type"].ToString()
                 };
 
-                var jsonBody = JsonConvert.SerializeObject(requestBody);
+                var jsonBody = new JavaScriptSerializer().Serialize(requestBody);
                 var HttpContent = new StringContent(jsonBody, Encoding.UTF8, "application/json");
                 var response = client.PostAsync(url, HttpContent).Result;
                 var responseJson = response.Content.ReadAsStringAsync().Result;
-                var responseObject = JsonConvert.DeserializeObject<dynamic>(responseJson);
+                var responseObject = new JavaScriptSerializer().Deserialize<dynamic>(responseJson);
                 string accessToken = responseObject.access_token;
 
 
@@ -60,7 +60,7 @@ namespace Daikin.BusinessLogics.Common
 
                 var responseJson = response.Content.ReadAsStringAsync().Result;
 
-                dynamic responseObject = JsonConvert.DeserializeObject(responseJson);
+                dynamic responseObject = new JavaScriptSerializer().Deserialize<dynamic>(responseJson);
 
                 var tasks = responseObject.tasks;
 
@@ -84,7 +84,7 @@ namespace Daikin.BusinessLogics.Common
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var payload = new { outcome = approval_value };
-                var jsonPayload = JsonConvert.SerializeObject(payload);
+                var jsonPayload = new JavaScriptSerializer().Serialize(payload);
                 var stringContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
                 string url = $"https://us.nintex.io/workflows/v2/tasks/{task_id}/assignments/{assignment_id}";
@@ -103,7 +103,7 @@ namespace Daikin.BusinessLogics.Common
                     ProcessSuccess = true,
                     InfoMessage = "OK"
                 };
-                return JsonConvert.SerializeObject(result);
+                return new JavaScriptSerializer().Serialize(result);
             }
 
             catch (Exception ex)
@@ -113,7 +113,7 @@ namespace Daikin.BusinessLogics.Common
                     ProcessSuccess = false,
                     InfoMessage = ex.Message
                 };
-                return JsonConvert.SerializeObject(result);
+                return new JavaScriptSerializer().Serialize(result);
             }
         }
 

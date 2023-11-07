@@ -14,7 +14,6 @@ using System.Xml.Linq;
 using Daikin.BusinessLogics.Common.Model;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Newtonsoft.Json;
 
 namespace Daikin.Application.Layouts.WebServices {
     [WebService(Namespace = "http://spdev:3473/",
@@ -239,10 +238,11 @@ namespace Daikin.Application.Layouts.WebServices {
 
             try
             {
+                JavaScriptSerializer js = new JavaScriptSerializer();
                 string token = Aprroval.GetToken();
                 var tasks = Aprroval.GetTasks();
 
-                Console.WriteLine(JsonConvert.SerializeObject(tasks));
+                Console.WriteLine(js.Serialize(tasks));
                 var task = tasks.FirstOrDefault(t => t.name.ToString().Contains($"{ListItemID}"));
 
                 string task_id = Convert.ToString(task["id"]);
@@ -252,7 +252,7 @@ namespace Daikin.Application.Layouts.WebServices {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var payload = new { outcome = approvalValue };
-                var jsonPayload = JsonConvert.SerializeObject(payload);
+                var jsonPayload = js.Serialize(payload);
                 var stringContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
                 string url = $"https://us.nintex.io/workflows/v2/tasks/{task_id}/assignments/{assignmentID}";
