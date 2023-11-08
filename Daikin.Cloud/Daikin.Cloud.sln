@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Daikin.JobSchedulersLogic",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Daikin.API", "Daikin.API\Daikin.API.csproj", "{CE2B505F-79DA-4AAC-AF05-61A1C9F19FCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Daikin.APILogics", "Daikin.APILogics\Daikin.APILogics.csproj", "{2034FD7E-423B-41F1-AB69-D5ABC701C0A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{CE2B505F-79DA-4AAC-AF05-61A1C9F19FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE2B505F-79DA-4AAC-AF05-61A1C9F19FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE2B505F-79DA-4AAC-AF05-61A1C9F19FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2034FD7E-423B-41F1-AB69-D5ABC701C0A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2034FD7E-423B-41F1-AB69-D5ABC701C0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2034FD7E-423B-41F1-AB69-D5ABC701C0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2034FD7E-423B-41F1-AB69-D5ABC701C0A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

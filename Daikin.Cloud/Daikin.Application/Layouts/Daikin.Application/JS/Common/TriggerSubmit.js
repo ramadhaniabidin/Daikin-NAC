@@ -56,7 +56,8 @@ function SaveApproval(approvalValue, ListName, ListItemID) {
             dataType: "json",
             async: true,
             success: function () {
-                console.log('Successfully Added!');
+                console.log('Your Response have been recorded!');
+                window.location.href = '/_layouts/15/Daikin.Application/Modules/ClaimReimbursement/List.aspx'
             },
             error: function (xhr) {
                 console.log('Error: ' + xhr.responseText)

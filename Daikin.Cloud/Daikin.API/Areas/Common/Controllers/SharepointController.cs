@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace Daikin.API.Areas.Common.Controllers
 {
+    [System.Web.Http.RoutePrefix("api/Sharepoint")]
     public class SharepointController : ApiController
     {
         // GET api/<controller>
@@ -38,29 +39,45 @@ namespace Daikin.API.Areas.Common.Controllers
         public void Delete(int id)
         {
         }
-
-        public void UpdateStatus(CommonUpdateModel model)
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("UpdateStatus")]
+        public IHttpActionResult UpdateStatus([FromBody]CommonUpdateModel model)
         {
             try
             {
-                string password = "Aircon123";
+                string password = "Mq151k.$rqUd";
                 //Create the client context object and set the credentials  
                 ClientContext clientContext = new ClientContext("http://spdev:3473/");
                 SecureString securePassword = new SecureString();
                 foreach (char c in password.ToCharArray()) securePassword.AppendChar(c);
-                clientContext.Credentials = new SharePointOnlineCredentials("lrosandy@daikin.co.id", securePassword);
+                //clientContext.Credentials = new SharePointOnlineCredentials("nintex2021@daikin.co.id", securePassword);
+                clientContext.Credentials = new NetworkCredential("nintex2021@daikin.co.id", securePassword);
 
-                List oList = clientContext.Web.Lists.GetByTitle("Announcements");
-                ListItem oListItem = oList.GetItemById(7);
-                oListItem["Title"] = "Custom Title updated Programmatically.";
+                List oList = clientContext.Web.Lists.GetByTitle(model.ListName);
+                ListItem oListItem = oList.GetItemById(model.ListItemId);
+                oListItem["Form_x0020_Status"] = model.FormStatus;
+                oListItem["Workflow_x0020_Status"] = model.WorkflowStatus;
+                oListItem["Approval_x0020_Status"] = model.ApprovalStatus;
                 oListItem.Update();
                 clientContext.ExecuteQuery();
+
+                var obj = new
+                {
+                    ProcessSuccess = true,
+                    InfoMessage = "Success",
+                    Model = model
+                };
+                return Ok(obj);
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine(" Error occured " + ex.Message);
-                Console.ReadLine();
+                var obj = new
+                {
+                    ProcessSuccess = false,
+                    InfoMessage = ex.Message,
+                };
+                return Ok(obj);
             }
         }
     }
