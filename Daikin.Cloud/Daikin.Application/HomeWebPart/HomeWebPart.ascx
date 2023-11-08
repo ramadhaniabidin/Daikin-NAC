@@ -10,7 +10,7 @@
 <link href="../_layouts/15/Daikin.Application/Assets/nav.css" rel="stylesheet" />
 
 <div class="">
-    <img src="../_layouts/15/Daikin.Application/Assets/logowhite.png" class="logoimage">
+    <img src="/_layouts/15/Daikin.Application/Assets/logowhite.png" class="logoimage">
     <header>
           <div class="six">
             <h1>
@@ -25,44 +25,44 @@
           <i class="badge">99+</i>
           <img src="../_layouts/15/Daikin.Application/Assets/Task List/Icon Daikin Nintex-29.png" width="90px"  class="mt-1">
           <!-- <i class="fa-solid fa-file-invoice-dollar icon"></i> -->
-          <span>Pending Task List</span>
+          <span onclick="location.href='/_layouts/15/Daikin.Application/PendingTask/PendingTaskList.aspx'">Pending Task List</span>
         </li>
         <li class="first-level left">
           <img src="../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-05.png" width="90px" class="mt-1">
           <span class="mb-1">Claim & Reimbursement</span>
           <ul class="submenu">
             <li class="submenu-col">
-              <a href="#">
+              <a href="/Lists/Entertainment%20Full/NewForm.aspx">
                 <img src="../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-06.png" width="90px" />
                 <div class="submenu-title">Business Relation</div>
               </a>
             </li>
             <li class="submenu-col">
-              <a href="#">
+              <a href="/Lists/Travel%20Expense/NewForm.aspx">
                 <img src="../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-07.png" width="90px" />
                 <div class="submenu-title">Travel Expense</div>
               </a>
             </li>
             <li class="submenu-col">
-              <a href="#">
+              <a href="/Lists/Unloading%20Fee/NewForm.aspx">
                 <img src="../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-08.png" width="90px" />
                 <div class="submenu-title">Unloading Fee</div>
               </a>
             </li>
             <li class="submenu-col">
-              <a href="#">
+              <a href="/Lists/Modern%20Channel/NewForm.aspx">
                 <img src="../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-09.png" width="90px" />
                 <div class="submenu-title">Modern Channel</div>
               </a>
             </li>
             <li class="submenu-col">
-              <a href="#">
+              <a href="/Lists/General%20Rebate/NewForm.aspx">
                 <img src="../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-10.png"  width="90px" />
                 <div class="submenu-title">General Rebate</div>
               </a>
             </li>
             <li class="submenu-col">
-              <a href="#">
+              <a href="/Lists/Entertainment%20Full/NewForm.aspx">
                 <img src="../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-11.png"  width="90px" />
                 <div class="submenu-title">Revise Rebate</div>
               </a>
@@ -74,7 +74,7 @@
               </a>
             </li>
             <li class="submenu-col">
-              <a href="#">
+              <a href="/_layouts/15/Daikin.Application/Modules/ClaimRembursement/List.aspx">
                 <img src="../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-13.png"  width="90px" />
                 <div class="submenu-title">Claim & Reimbursement <br> List</div>
               </a>
@@ -82,7 +82,7 @@
           </ul>
         </li>
 
-        <li class="first-level left">
+<%--        <li class="first-level left">
           <img src="../_layouts/15/Daikin.Application/Assets/Commercial/Icon Daikin Nintex-14.png" width="90px" class="mt-1">
           <span class="mb-2">Commercial</span>
           <ul class="submenu">
@@ -191,7 +191,7 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li>--%>
 
       </ul>
     </nav>

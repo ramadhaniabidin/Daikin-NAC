@@ -6,6 +6,19 @@ using System.Threading.Tasks;
 
 namespace Daikin.BusinessLogics.Common.Model
 {
+    public class ListDataID
+    {
+        public int ID
+        {
+            get; set;
+        }
+
+        public string NAC_Guid
+        {
+            get; set;
+        }
+        
+    }
     public class ApproverRoleModel
     {
         public int Position_ID { get; set; }

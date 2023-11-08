@@ -97,8 +97,19 @@
     <Compile Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\Memo.aspx.designer.cs">
       <DependentUpon>Memo.aspx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Layouts\Daikin.Application\Modules\PendingTask\PendingTaskList.aspx.cs">
+      <DependentUpon>PendingTaskList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Daikin.Application\Modules\PendingTask\PendingTaskList.aspx.designer.cs">
+      <DependentUpon>PendingTaskList.aspx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Layouts\Daikin.Application\WebServices\ClaimReimbursement.asmx.cs">
       <DependentUpon>ClaimReimbursement.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Layouts\Daikin.Application\WebServices\PendingTask.asmx.cs">
+      <DependentUpon>PendingTask.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Layouts\Daikin.Application\WebServices\NACWebService.asmx.cs">
@@ -252,6 +263,7 @@
     <Content Include="Layouts\Daikin.Application\CSS\style.css" />
     <Content Include="Layouts\Daikin.Application\JS\Modules\ClaimReimbursement.js" />
     <Content Include="Layouts\Daikin.Application\JS\Modules\Memo.js" />
+    <Content Include="Layouts\Daikin.Application\JS\Modules\PendingTaskList.js" />
     <Content Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\List.aspx" />
     <Content Include="Layouts\Daikin.Application\JS\angular.min.js" />
     <Content Include="Layouts\Daikin.Application\JS\Attachments.js" />
@@ -268,7 +280,9 @@
     <Content Include="Layouts\Daikin.Application\JS\ui-bootstrap-fa.js" />
     <Content Include="Layouts\Daikin.Application\JS\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\Memo.aspx" />
+    <Content Include="Layouts\Daikin.Application\Modules\PendingTask\PendingTaskList.aspx" />
     <Content Include="Layouts\Daikin.Application\WebServices\ClaimReimbursement.asmx" />
+    <Content Include="Layouts\Daikin.Application\WebServices\PendingTask.asmx" />
     <Content Include="Layouts\Daikin.Application\WebServices\NACWebService.asmx" />
   </ItemGroup>
   <ItemGroup>

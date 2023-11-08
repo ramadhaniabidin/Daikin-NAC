@@ -188,6 +188,23 @@ namespace Daikin.BusinessLogics.Common
 
         }
 
+        public string GetPendingApprover(string listName, int itemID)
+        {
+            string Approver = string.Empty;
+            try
+            {
+                db.OpenConnection(ref conn);
+                Approver = db.GetValueFromQuery("exec [dbo].[usp_NWC_getPendingApprover] '" + listName + "', " + itemID, "Pending_Approver_Name");
+                db.CloseConnection(ref conn);
+                return Approver;
+            }
+            catch (Exception ex)
+            {
+                db.CloseConnection(ref conn);
+                throw ex;
+            }
+        }
+
         public List<string> GetMappingBranchCurrentLogin(string CurrentLogin)
         {
             List<string> listBranch = new List<string>();

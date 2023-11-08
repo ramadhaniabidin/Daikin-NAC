@@ -3,6 +3,7 @@
 <%@ Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Register Tagprefix="Utilities" Namespace="Microsoft.SharePoint.Utilities" Assembly="Microsoft.SharePoint, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Register Tagprefix="asp" Namespace="System.Web.UI" Assembly="System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" %>
+<%@ Register Src="~/_controltemplates/15/Daikin.Application/Loading.ascx" TagPrefix="uc1" TagName="Loading" %>
 <%@ Import Namespace="Microsoft.SharePoint" %>
 <%@ Assembly Name="Microsoft.Web.CommandUI, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PendingTaskList.aspx.cs" Inherits="Daikin.Application.Layouts.Daikin.Application.Modules.PendingTask.PendingTaskList" DynamicMasterPageFile="~masterurl/default.master" %>
@@ -21,7 +22,7 @@
     <script src="/_layouts/15/Daikin.Application/JS/ng-file-upload.min.js"></script>
     <script src="/_layouts/15/Daikin.Application/JS/Pager.js?id=<%= Guid.NewGuid().ToString() %>"></script>
     <script src="/_layouts/15/Daikin.Application/JS/BaseLogic.js?id=<%= Guid.NewGuid().ToString() %>"></script>
-    <script src="/_layouts/15/Daikin.Application/JS/TaskApproval/PendingTaskApproval.js?id=<%= Guid.NewGuid().ToString() %>"></script>
+    <script src="/_layouts/15/Daikin.Application/JS/Modules/PendingTaskList.js?id=<%= Guid.NewGuid().ToString() %>"></script>
 </asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">

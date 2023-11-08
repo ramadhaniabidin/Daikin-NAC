@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Daikin.BusinessLogics.Common.Model;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -10,6 +13,10 @@ namespace Daikin.BusinessLogics.Common
 {
     public class Aprroval
     {
+        static DatabaseManager db = new DatabaseManager();
+        static SqlConnection conn = new SqlConnection();
+        static SqlDataReader reader = null;
+        static DataTable dt = new DataTable();
         public static string GetToken()
         {
             string url = "https://us.nintex.io/authentication/v1/token";
@@ -31,17 +38,46 @@ namespace Daikin.BusinessLogics.Common
 
             return accessToken;
         }
-        public static IEnumerable<dynamic> GetTasks()
+
+        public static List<ListDataID> GetListDataID(string ListName, int ItemID)
         {
-            string url = "https://us.nintex.io/workflows/v1/tasks";
-            string token = GetToken();
+            dt = new DataTable();
+            try
+            {
+                db.OpenConnection(ref conn);
+                db.cmd.CommandText = "usp_GetDataByItemID";
+                db.cmd.CommandType = CommandType.StoredProcedure;
+
+                db.cmd.Parameters.Clear();
+                db.AddInParameter(db.cmd, "ListName", ListName);
+                db.AddInParameter(db.cmd, "ItemID", ItemID);
+                reader = db.cmd.ExecuteReader();
+                dt.Load(reader);
+                db.CloseDataReader(reader);
+
+                var list = Utility.ConvertDataTableToList<ListDataID>(dt);
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.CloseConnection(ref conn);
+            }
+        }
+
+        public static IEnumerable<dynamic> GetTasks(string token, string NAC_Guid)
+        {
+            string url = "https://au.nintex.io/workflows/v2/tasks?status=active" + "&workflowInstanceId=" + NAC_Guid;
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-            var response = client.GetAsync(url).Result;
+            var response = client.GetAsync(url);
 
-            var responseJson = response.Content.ReadAsStringAsync().Result;
+            var responseJson = response.Result.Content.ReadAsStringAsync().Result;
 
             dynamic responseObject = new JavaScriptSerializer().Deserialize<dynamic>(responseJson);
 
@@ -50,36 +86,29 @@ namespace Daikin.BusinessLogics.Common
             return tasks;
         }
 
-        //public static string GetTaskAndAssignmentID(int item_id)
+
+        //public async Task<object> GetTasks(string token)
         //{
-        //    try
+        //    var client = new HttpClient();
+        //    var request = new HttpRequestMessage
         //    {
-        //        //string token = controller.GetToken();
-        //        var tasks = GetTasks();
-        //        Console.WriteLine(JsonConvert.SerializeObject(tasks));
-        //        var task = tasks.FirstOrDefault(t => t.name.ToString().Contains($"{item_id}"));
-
-        //        string task_id = Convert.ToString(task["id"]);
-        //        string assignmentID = Convert.ToString(task["taskAssignments"][0]["id"]);
-        //        var result = new
+        //        Method = HttpMethod.Get,
+        //        RequestUri = new Uri("https://au.nintex.io/workflows/v2/tasks?status=active"),
+        //        Headers =
         //        {
-        //            ProcessSuccess = true,
-        //            InfoMessage = "OK",
-        //            task_id = task_id,
-        //            assignment_id = assignmentID
-        //        };
-
-        //        return new JavaScriptSerializer().Serialize(result);
-        //    }
-        //    catch (Exception ex)
+        //            { "Accept", "application/json, application/problem+json" },
+        //            { "Authorization", $"Bearer {token}" },
+        //        },
+        //    };
+        //    using (var response = await client.SendAsync(request))
         //    {
-        //        var result = new
-        //        {
-        //            ProcessSuccess = false,
-        //            InfoMessage = ex.Message
-        //        };
-        //        return new JavaScriptSerializer().Serialize(result);
+        //        response.EnsureSuccessStatusCode();
+        //        var body = await response.Content.ReadAsStringAsync();
+        //        var responseObject = new JavaScriptSerializer().Deserialize<dynamic>(body);
+        //        var tasks = responseObject["tasks"];
+        //        return tasks;
         //    }
+
         //}
 
 

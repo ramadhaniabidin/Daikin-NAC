@@ -117,7 +117,7 @@ namespace Daikin.Application.Layouts.Daikin.Application.WebServices
             try
             {
                 var items = ctrlGen.ModuleOptions(ListName);
-                var listBranch = new CommonLogic().DropDownLists("Master Business Area",1, "All","", "Code","Branches");
+                var listBranch = new CommonLogic().DropDownLists("MasterBusinessArea",1, "All","", "Code","Branches");
                 SPUser user = SPContext.Current.Web.CurrentUser;
                 int SPUserId = user.ID;
 

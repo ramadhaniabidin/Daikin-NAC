@@ -58,6 +58,8 @@
   <ItemGroup>
     <Compile Include="Apps\ClaimReimbursement\Controller\ClaimReimbursementController.cs" />
     <Compile Include="Apps\ClaimReimbursement\Model\FilterSearchModel.cs" />
+    <Compile Include="Apps\PendingTask\Controller\PendingTaskController.cs" />
+    <Compile Include="Apps\PendingTask\Model\PendingTaskModel.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Common\Aprroval.cs" />
     <Compile Include="Common\CommonLogic.cs" />

@@ -239,11 +239,18 @@ namespace Daikin.Application.Layouts.WebServices {
             try
             {
                 JavaScriptSerializer js = new JavaScriptSerializer();
+                var resultDataID = Aprroval.GetListDataID(ListName, ListItemID);
+                //var dataID = DataID[0];
+                string NAC_Guid = resultDataID[0].NAC_Guid;
                 string token = Aprroval.GetToken();
-                var tasks = Aprroval.GetTasks();
+                //var resultTask = Task.Run(async () => await new Aprroval().GetTasks(token));
+                //var tasks = resultTask;
+                var tasks = Aprroval.GetTasks(token, NAC_Guid);
+                //var tasks = Task.Run(async () => { await new Aprroval().GetTasks(); }).Wait();
+                //var tasks = Aprroval.GetTasks();
 
                 Console.WriteLine(js.Serialize(tasks));
-                var task = tasks.FirstOrDefault(t => t.name.ToString().Contains($"{ListItemID}"));
+                var task = tasks.FirstOrDefault(t => t["name"].Contains($"Item ID: {ListItemID}"));
 
                 string task_id = Convert.ToString(task["id"]);
                 string assignmentID = Convert.ToString(task["taskAssignments"][0]["id"]);
@@ -255,8 +262,8 @@ namespace Daikin.Application.Layouts.WebServices {
                 var jsonPayload = js.Serialize(payload);
                 var stringContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
-                string url = $"https://us.nintex.io/workflows/v2/tasks/{task_id}/assignments/{assignmentID}";
-                
+                string url = $"https://au.nintex.io/workflows/v2/tasks/{task_id}/assignments/{assignmentID}";
+
                 var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
                 request.Content = stringContent;
 
@@ -282,6 +289,13 @@ namespace Daikin.Application.Layouts.WebServices {
                 };
                 return new JavaScriptSerializer().Serialize(result);
             }
+        }
+
+        [WebMethod]
+        public string GetApprover(string ListName, int ListItemID)
+        {
+            var approver = new Utility().GetPendingApprover(ListName, ListItemID);
+            return approver;
         }
     }
 }
