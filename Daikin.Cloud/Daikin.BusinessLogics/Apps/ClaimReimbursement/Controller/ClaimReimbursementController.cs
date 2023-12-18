@@ -42,6 +42,8 @@ namespace Daikin.BusinessLogics.Apps.ClaimReimbursement.Controller
                 db.AddInParameter(db.cmd, "BranchName", model.BranchName);
                 db.AddInParameter(db.cmd, "PendingApproverRoleID", model.PendingApproverRoleID);
                 db.AddInParameter(db.cmd, "PendingApproverRole", model.PendingApproverRole);
+                db.AddInParameter(db.cmd, "LIstName", model.ListName);
+
 
                 db.AddInParameter(db.cmd, "CurrentLogin", model.CurrentLogin);
                 db.AddOutParameter(db.cmd, "@RecordCount", SqlDbType.Int);

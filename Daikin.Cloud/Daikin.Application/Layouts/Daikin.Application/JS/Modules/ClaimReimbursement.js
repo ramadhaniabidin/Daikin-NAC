@@ -428,13 +428,16 @@ app.controller('ctrl', function ($scope, svc) {
     $scope.GrandTotal = 0;
     $scope.ListData = function (PageIndex) {
         var TableName = $scope.Module.Table_Name;
+        var isReviseRebate = $scope.Module.Name == 'Revise Rebate' ? true : false
         var FilterBy = $scope.FilterBy.Code;
+        var listName = $scope.Module.List_Name
         var StartDate = $scope.Date.Start;
         var EndDate = $scope.Date.End;
         var Branch = $scope.Branch == undefined ? '' : $scope.Branch.Name;
         if (Branch == 'All') {
             Branch = '';
         }
+        console.log(isReviseRebate, $scope.Module)
 
         var param = {
             TableName: TableName,
@@ -449,9 +452,10 @@ app.controller('ctrl', function ($scope, svc) {
             PaymentStatus: $scope.PaymentStatus.Code,
             PostingStatus: $scope.PostingStatus.Code,
             BranchName: Branch,
+            ListName: listName,
             PendingApproverRole: $scope.PendingApprovalRole.Code == undefined ? '' : $scope.Pending_Approver_Role.Code,
             //CurrentLogin: 'daikin\\urohman',
-        };
+        }; 
 
 
         if (TableName != undefined) {
