@@ -39,6 +39,10 @@ namespace Daikin.Application.HomeWebPart {
     
     public partial class HomeWebPart {
         
+        [GeneratedCodeAttribute("Microsoft.VisualStudio.SharePoint.ProjectExtensions.CodeGenerators.SharePointWebP" +
+            "artCodeGenerator", "14.0.0.0")]
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TotalPendingTaskList;
+        
         [GeneratedCodeAttribute("Microsoft.VisualStudio.SharePoint.ProjectExtensions.CodeGenerators.SharePointWebPartCodeGenerator", "14.0.0.0")]
         public static implicit operator global::System.Web.UI.TemplateControl(HomeWebPart target) 
         {
@@ -48,58 +52,176 @@ namespace Daikin.Application.HomeWebPart {
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
         [GeneratedCodeAttribute("Microsoft.VisualStudio.SharePoint.ProjectExtensions.CodeGenerators.SharePointWebP" +
             "artCodeGenerator", "14.0.0.0")]
-        private void @__BuildControlTree(global::Daikin.Application.HomeWebPart.HomeWebPart @__ctrl) {
+        private global::System.Web.UI.HtmlControls.HtmlGenericControl @__BuildControlTotalPendingTaskList() {
+            global::System.Web.UI.HtmlControls.HtmlGenericControl @__ctrl;
+            @__ctrl = new global::System.Web.UI.HtmlControls.HtmlGenericControl("i");
+            this.TotalPendingTaskList = @__ctrl;
+            ((System.Web.UI.IAttributeAccessor)(@__ctrl)).SetAttribute("class", "badge");
+            @__ctrl.ID = "TotalPendingTaskList";
             System.Web.UI.IParserAccessor @__parser = ((System.Web.UI.IParserAccessor)(@__ctrl));
-            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("\r\n\r\n<link href=\"../_layouts/15/Daikin.Application/Assets/nav.css\" rel=\"stylesheet" +
-                        "\" />\r\n\r\n<div class=\"\">\r\n    <img src=\"/_layouts/15/Daikin.Application/Assets/log" +
-                        "owhite.png\" class=\"logoimage\">\r\n    <header>\r\n          <div class=\"six\">\r\n     " +
-                        "       <h1>\r\n              DID Nintex Portal\r\n            </h1>\r\n          </div" +
-                        ">\r\n        </header>\r\n    <nav class=\"main-nav\">\r\n      <ul>\r\n        \r\n        " +
-                        "<li class=\"first-level left\">\r\n          <i class=\"badge\">99+</i>\r\n          <im" +
-                        "g src=\"../_layouts/15/Daikin.Application/Assets/Task List/Icon Daikin Nintex-29." +
-                        "png\" width=\"90px\"  class=\"mt-1\">\r\n          <!-- <i class=\"fa-solid fa-file-invo" +
-                        "ice-dollar icon\"></i> -->\r\n          <span onclick=\"location.href=\'/_layouts/15/" +
-                        "Daikin.Application/PendingTask/PendingTaskList.aspx\'\">Pending Task List</span>\r\n" +
-                        "        </li>\r\n        <li class=\"first-level left\">\r\n          <img src=\"../_la" +
-                        "youts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20N" +
-                        "intex-05.png\" width=\"90px\" class=\"mt-1\">\r\n          <span class=\"mb-1\">Claim & R" +
-                        "eimbursement</span>\r\n          <ul class=\"submenu\">\r\n            <li class=\"subm" +
-                        "enu-col\">\r\n              <a href=\"/Lists/Entertainment%20Full/NewForm.aspx\">\r\n  " +
-                        "              <img src=\"../_layouts/15/Daikin.Application/Assets/Claim%20And%20R" +
-                        "eimbursement/Icon%20Daikin%20Nintex-06.png\" width=\"90px\" />\r\n                <di" +
-                        "v class=\"submenu-title\">Business Relation</div>\r\n              </a>\r\n           " +
-                        " </li>\r\n            <li class=\"submenu-col\">\r\n              <a href=\"/Lists/Trav" +
-                        "el%20Expense/NewForm.aspx\">\r\n                <img src=\"../_layouts/15/Daikin.App" +
-                        "lication/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-07.png\" width" +
-                        "=\"90px\" />\r\n                <div class=\"submenu-title\">Travel Expense</div>\r\n   " +
-                        "           </a>\r\n            </li>\r\n            <li class=\"submenu-col\">\r\n      " +
-                        "        <a href=\"/Lists/Unloading%20Fee/NewForm.aspx\">\r\n                <img src" +
-                        "=\"../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Da" +
-                        "ikin%20Nintex-08.png\" width=\"90px\" />\r\n                <div class=\"submenu-title" +
-                        "\">Unloading Fee</div>\r\n              </a>\r\n            </li>\r\n            <li cl" +
-                        "ass=\"submenu-col\">\r\n              <a href=\"/Lists/Modern%20Channel/NewForm.aspx\"" +
-                        ">\r\n                <img src=\"../_layouts/15/Daikin.Application/Assets/Claim%20An" +
-                        "d%20Reimbursement/Icon%20Daikin%20Nintex-09.png\" width=\"90px\" />\r\n              " +
-                        "  <div class=\"submenu-title\">Modern Channel</div>\r\n              </a>\r\n         " +
-                        "   </li>\r\n            <li class=\"submenu-col\">\r\n              <a href=\"/Lists/Ge" +
-                        "neral%20Rebate/NewForm.aspx\">\r\n                <img src=\"../_layouts/15/Daikin.A" +
-                        "pplication/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-10.png\"  wi" +
-                        "dth=\"90px\" />\r\n                <div class=\"submenu-title\">General Rebate</div>\r\n" +
-                        "              </a>\r\n            </li>\r\n            <li class=\"submenu-col\">\r\n   " +
-                        "           <a href=\"/Lists/Entertainment%20Full/NewForm.aspx\">\r\n                " +
-                        "<img src=\"../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/I" +
-                        "con%20Daikin%20Nintex-11.png\"  width=\"90px\" />\r\n                <div class=\"subm" +
-                        "enu-title\">Revise Rebate</div>\r\n              </a>\r\n            </li>\r\n         " +
-                        "   <li class=\"submenu-col\">\r\n              <a href=\"#\">\r\n                <img sr" +
-                        "c=\"../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20D" +
-                        "aikin%20Nintex-12.png\"  width=\"90px\" />\r\n                <div class=\"submenu-tit" +
-                        "le\">Claim Rebate</div>\r\n              </a>\r\n            </li>\r\n            <li c" +
-                        "lass=\"submenu-col\">\r\n              <a href=\"/_layouts/15/Daikin.Application/Modu" +
-                        "les/ClaimRembursement/List.aspx\">\r\n                <img src=\"../_layouts/15/Daik" +
-                        "in.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-13.png\"" +
-                        "  width=\"90px\" />\r\n                <div class=\"submenu-title\">Claim & Reimbursem" +
-                        "ent <br> List</div>\r\n              </a>\r\n            </li>\r\n          </ul>\r\n   " +
-                        "     </li>\r\n\r\n\r\n\r\n      </ul>\r\n    </nav>\r\n</div>"));
+            @__parser.AddParsedSubObject(new System.Web.UI.LiteralControl("99+"));
+            return @__ctrl;
+        }
+        
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [GeneratedCodeAttribute("Microsoft.VisualStudio.SharePoint.ProjectExtensions.CodeGenerators.SharePointWebP" +
+            "artCodeGenerator", "14.0.0.0")]
+        private void @__BuildControlTree(global::Daikin.Application.HomeWebPart.HomeWebPart @__ctrl) {
+            global::System.Web.UI.HtmlControls.HtmlGenericControl @__ctrl1;
+            @__ctrl1 = this.@__BuildControlTotalPendingTaskList();
+            System.Web.UI.IParserAccessor @__parser = ((System.Web.UI.IParserAccessor)(@__ctrl));
+            @__parser.AddParsedSubObject(@__ctrl1);
+            @__ctrl.SetRenderMethodDelegate(new System.Web.UI.RenderMethod(this.@__Render__control1));
+        }
+        
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [GeneratedCodeAttribute("Microsoft.VisualStudio.SharePoint.ProjectExtensions.CodeGenerators.SharePointWebP" +
+            "artCodeGenerator", "14.0.0.0")]
+        private void @__Render__control1(System.Web.UI.HtmlTextWriter @__w, System.Web.UI.Control parameterContainer) {
+            @__w.Write("\r\n\r\n<link href=\"../_layouts/15/Daikin.Application/Assets/nav.css?id=");
+                                                        @__w.Write( Guid.NewGuid().ToString() );
+
+            @__w.Write(@""" rel=""stylesheet"" />
+
+
+<div class="""">
+    <img src=""/_layouts/15/Daikin.Application/Assets/logowhite.png"" class=""logoimage"">
+    <header>
+          <div class=""six"">
+            <h1>
+              DID Nintex Portal
+            </h1>
+          </div>
+        </header>
+    <nav class=""main-nav"">
+      <ul>
+        
+        <li class=""first-level left"">
+          ");
+            parameterContainer.Controls[0].RenderControl(@__w);
+            @__w.Write("\r\n          <img src=\"../_layouts/15/Daikin.Application/Assets/Task List/Icon Dai" +
+                    "kin Nintex-29.png\" \r\n              width=\"90px\"  class=\"mt-1\" onclick=\"location." +
+                    "href=\'/_layouts/15/Daikin.Application/Modules/PendingTask/PendingTaskList.aspx\'\"" +
+                    ">\r\n          <!-- <i class=\"fa-solid fa-file-invoice-dollar icon\"></i> -->\r\n    " +
+                    "      <span>Pending Task List</span>\r\n        </li>\r\n        <li class=\"first-le" +
+                    "vel left\">\r\n          <img src=\"../_layouts/15/Daikin.Application/Assets/Claim%2" +
+                    "0And%20Reimbursement/Icon%20Daikin%20Nintex-05.png\" width=\"90px\" class=\"mt-1\">\r\n" +
+                    "          <span class=\"mb-1\">Claim & Reimbursement</span>\r\n          <ul class=\"" +
+                    "submenu\" >\r\n            <li class=\"submenu-col\">\r\n              <a href=\"/_layou" +
+                    "ts/15/Daikin.Application/Modules/ClaimReimbursement/Memo.aspx?module=M001\">\r\n   " +
+                    "             <img src=\"../_layouts/15/Daikin.Application/Assets/Claim%20And%20Re" +
+                    "imbursement/Icon%20Daikin%20Nintex-06.png\" width=\"90px\" />\r\n                <div" +
+                    " class=\"submenu-title\">Business Relation</div>\r\n              </a>\r\n            " +
+                    "</li>\r\n            <li class=\"submenu-col\">\r\n              <a href=\"/Lists/Trave" +
+                    "l%20Expense/NewForm.aspx\">\r\n                <img src=\"../_layouts/15/Daikin.Appl" +
+                    "ication/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-07.png\" width=" +
+                    "\"90px\" />\r\n                <div class=\"submenu-title\">Travel Expense</div>\r\n    " +
+                    "          </a>\r\n            </li>\r\n            <li class=\"submenu-col\">\r\n       " +
+                    "       <a href=\"/Lists/Unloading%20Fee/NewForm.aspx\">\r\n                <img src=" +
+                    "\"../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Dai" +
+                    "kin%20Nintex-08.png\" width=\"90px\" />\r\n                <div class=\"submenu-title\"" +
+                    ">Unloading Fee</div>\r\n              </a>\r\n            </li>\r\n            <li cla" +
+                    "ss=\"submenu-col\">\r\n              <a href=\"/Lists/Modern%20Channel/NewForm.aspx\">" +
+                    "\r\n                <img src=\"../_layouts/15/Daikin.Application/Assets/Claim%20And" +
+                    "%20Reimbursement/Icon%20Daikin%20Nintex-09.png\" width=\"90px\" />\r\n               " +
+                    " <div class=\"submenu-title\">Modern Channel</div>\r\n              </a>\r\n          " +
+                    "  </li>\r\n            <li class=\"submenu-col\">\r\n              <a href=\"/Lists/Gen" +
+                    "eral%20Rebate/NewForm.aspx\">\r\n                <img src=\"../_layouts/15/Daikin.Ap" +
+                    "plication/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%20Nintex-10.png\"  wid" +
+                    "th=\"90px\" />\r\n                <div class=\"submenu-title\">General Rebate</div>\r\n " +
+                    "             </a>\r\n            </li>\r\n            \r\n            <li class=\"subme" +
+                    "nu-col\">\r\n              <a href=\"/Lists/Claim%20Rebate/NewForm.aspx\">\r\n         " +
+                    "       <img src=\"../_layouts/15/Daikin.Application/Assets/Claim%20And%20Reimburs" +
+                    "ement/Icon%20Daikin%20Nintex-12.png\"  width=\"90px\" />\r\n                <div clas" +
+                    "s=\"submenu-title\">Claim Rebate</div>\r\n              </a>\r\n            </li>\r\n   " +
+                    "         <li class=\"submenu-col\">\r\n              <a href=\"/_layouts/15/Daikin.Ap" +
+                    "plication/Modules/ClaimReimbursement/List.aspx\">\r\n                <img src=\"../_" +
+                    "layouts/15/Daikin.Application/Assets/Claim%20And%20Reimbursement/Icon%20Daikin%2" +
+                    "0Nintex-13.png\"  width=\"90px\" />\r\n                <div class=\"submenu-title\">Cla" +
+                    "im & Reimbursement <br> List</div>\r\n              </a>\r\n            </li>\r\n     " +
+                    "     </ul>\r\n        </li>\r\n\r\n        <li class=\"first-level left\">\r\n          <i" +
+                    "mg src=\"../_layouts/15/Daikin.Application/Assets/Commercial/Icon Daikin Nintex-1" +
+                    "4.png\" width=\"90px\" class=\"mt-1\">\r\n          <span class=\"mb-2\">Commercial</span" +
+                    ">\r\n          <ul class=\"submenu\">\r\n            <li class=\"submenu-col\">\r\n       " +
+                    "       <a href=\"https://sp3.daikin.co.id:8443/_layouts/15/Daikin.WebApps/Commerc" +
+                    "ials/FOB.aspx\">\r\n                <img src=\"../_layouts/15/Daikin.Application/Ass" +
+                    "ets/Commercial/Icon Daikin Nintex-15.png\" width=\"90px\" class=\"mt-1\">\r\n          " +
+                    "      <div class=\"submenu-title\">FOB</div>\r\n              </a>\r\n            </li" +
+                    ">\r\n            <li class=\"submenu-col\">\r\n              <a href=\"https://sp3.daik" +
+                    "in.co.id:8443/_layouts/15/Daikin.WebApps/Commercials/ServiceCost.aspx\">\r\n       " +
+                    "         <img src=\"../_layouts/15/Daikin.Application/Assets/Commercial/Icon Daik" +
+                    "in Nintex-16.png\" width=\"90px\" class=\"mt-1\">\r\n                <div class=\"submen" +
+                    "u-title\">Service Cost</div>\r\n              </a>\r\n            </li>\r\n            " +
+                    "<li class=\"submenu-col\">\r\n              <a href=\"https://sp3.daikin.co.id:8443/L" +
+                    "ists/PIB/NewForm.aspx\">\r\n                <img src=\"../_layouts/15/Daikin.Applica" +
+                    "tion/Assets/Commercial/Icon Daikin Nintex-17.png\" width=\"90px\" class=\"mt-1\">\r\n  " +
+                    "              <div class=\"submenu-title\">PIB</div>\r\n              </a>\r\n        " +
+                    "    </li>\r\n            <li class=\"submenu-col\">\r\n              <a href=\"https://" +
+                    "sp3.daikin.co.id:8443/Lists/Commercials/NewForm.aspx\">\r\n                <img src" +
+                    "=\"../_layouts/15/Daikin.Application/Assets/Commercial/Icon Daikin Nintex-18.png\"" +
+                    " width=\"90px\" class=\"mt-1\">\r\n                <div class=\"submenu-title\">PO Subco" +
+                    "n</div>\r\n              </a>\r\n            </li>\r\n            <li class=\"submenu-c" +
+                    "ol\">\r\n              <a href=\"https://sp3.daikin.co.id:8443/_Layouts/15/Daikin.We" +
+                    "bApps/Commercials/List.aspx\">\r\n                <img src=\"../_layouts/15/Daikin.A" +
+                    "pplication/Assets/Commercial/Icon Daikin Nintex-19.png\" width=\"90px\" class=\"mt-1" +
+                    "\">\r\n                <div class=\"submenu-title\">Commercial List</div>\r\n          " +
+                    "    </a>\r\n            </li>\r\n          </ul>\r\n        </li>\r\n\r\n        <li class" +
+                    "=\"first-level left\">\r\n          <img src=\"../_layouts/15/Daikin.Application/Asse" +
+                    "ts/Non Commercial/Icon Daikin Nintex-20.png\" width=\"90px\"  class=\"mt-1\">\r\n      " +
+                    "    <span class=\"mb-2\">Non Commercial</span>\r\n          <ul class=\"submenu\">\r\n  " +
+                    "          <li class=\"submenu-col\">\r\n              <a href=\"https://sp3.daikin.co" +
+                    ".id:8443/_Layouts/15/Daikin.WebApps/NonCommercials/Contract.aspx\">\r\n            " +
+                    "    <img src=\"../_layouts/15/Daikin.Application/Assets/Non Commercial/Icon Daiki" +
+                    "n Nintex-21.png\" width=\"90px\"  class=\"mt-1\">\r\n                <div class=\"submen" +
+                    "u-title\">Cotract</div>\r\n              </a>\r\n            </li>\r\n            <li c" +
+                    "lass=\"submenu-col\">\r\n              <a href=\"https://sp3.daikin.co.id:8443/_Layou" +
+                    "ts/15/Daikin.WebApps/NonCommercials/POContract.aspx\">\r\n                <img src=" +
+                    "\"../_layouts/15/Daikin.Application/Assets/Non Commercial/Icon Daikin Nintex-22.p" +
+                    "ng\" width=\"90px\"  class=\"mt-1\">\r\n                <div class=\"submenu-title\">PO C" +
+                    "ontract</div>\r\n              </a>\r\n            </li>\r\n            <li class=\"sub" +
+                    "menu-col\">\r\n              <a href=\"https://sp3.daikin.co.id:8443/_layouts/15/Dai" +
+                    "kin.WebApps/Master/Display.aspx?module=M016\">\r\n                <img src=\"../_lay" +
+                    "outs/15/Daikin.Application/Assets/Non Commercial/Icon Daikin Nintex-23.png\" widt" +
+                    "h=\"90px\"  class=\"mt-1\">\r\n                <div class=\"submenu-title\">Purchase Req" +
+                    "uest</div>\r\n              </a>\r\n            </li>\r\n            <li class=\"submen" +
+                    "u-col\">\r\n              <a href=\"https://sp3.daikin.co.id:8443/_Layouts/15/Daikin" +
+                    ".WebApps/NonCommercials/List.aspx\">\r\n                <img src=\"../_layouts/15/Da" +
+                    "ikin.Application/Assets/Non Commercial/Icon Daikin Nintex-24.png\" width=\"90px\"  " +
+                    "class=\"mt-1\">\r\n                <div class=\"submenu-title\">QCF</div>\r\n           " +
+                    "   </a>\r\n            </li>\r\n            <li class=\"submenu-col\">\r\n              " +
+                    "<a href=\"https://sp3.daikin.co.id:8443/_layouts/15/Daikin.WebApps/Master/Display" +
+                    ".aspx?module=M016\">\r\n                <img src=\"../_layouts/15/Daikin.Application" +
+                    "/Assets/Non Commercial/Icon Daikin Nintex-25.png\" width=\"90px\"  class=\"mt-1\">\r\n " +
+                    "               <div class=\"submenu-title\">Purchase Order</div>\r\n              </" +
+                    "a>\r\n            </li>\r\n            <li class=\"submenu-col\">\r\n              <a hr" +
+                    "ef=\"https://sp3.daikin.co.id:8443/_Layouts/15/Daikin.WebApps/NonCommercials/List" +
+                    ".aspx\">\r\n                <img src=\"../_layouts/15/Daikin.Application/Assets/Non " +
+                    "Commercial/Icon Daikin Nintex-26.png\" width=\"90px\"  class=\"mt-1\">\r\n             " +
+                    "   <div class=\"submenu-title\">PO Release</div>\r\n              </a>\r\n            " +
+                    "</li>\r\n            <li class=\"submenu-col\">\r\n              <a href=\"https://sp3." +
+                    "daikin.co.id:8443/_Layouts/15/Daikin.WebApps/NonCommercials/List.aspx\">\r\n       " +
+                    "         <img src=\"../_layouts/15/Daikin.Application/Assets/Non Commercial/Icon " +
+                    "Daikin Nintex-27.png\" width=\"90px\"  class=\"mt-1\">\r\n                <div class=\"s" +
+                    "ubmenu-title\">Non Commercial List</div>\r\n              </a>\r\n            </li>\r\n" +
+                    "          </ul>\r\n        </li>\r\n\r\n        <li class=\"first-level right\">\r\n      " +
+                    "    <img src=\"../_layouts/15/Daikin.Application/Assets/Finance Payment/Icon Daik" +
+                    "in Nintex-01.png\" width=\"90px\" class=\"mt-1\">\r\n          <span class=\"mb-2\">Payme" +
+                    "nt Menu</span>\r\n          <ul class=\"submenu\">\r\n            <li class=\"submenu-c" +
+                    "ol\">\r\n              <a href=\"https://sp3.daikin.co.id:8443/_layouts/15/Daikin.We" +
+                    "bApps/FinanceMenu/List.aspx\">\r\n                <img src=\"../_layouts/15/Daikin.A" +
+                    "pplication/Assets/Finance Payment/Icon Daikin Nintex-02.png\" width=\"90px\" class=" +
+                    "\"mt-1\">\r\n                <div class=\"submenu-title\">Finance Payment</div>\r\n     " +
+                    "         </a>\r\n            </li>\r\n            <li class=\"submenu-col\">\r\n        " +
+                    "      <a href=\"https://sp3.daikin.co.id:8443/_layouts/15/Daikin.WebApps/FinanceM" +
+                    "enu/List.aspx\">\r\n                <img src=\"../_layouts/15/Daikin.Application/Ass" +
+                    "ets/Finance Payment/Icon Daikin Nintex-03.png\" width=\"90px\" class=\"mt-1\">\r\n     " +
+                    "           <div class=\"submenu-title\">Finance Confirmation</div>\r\n              " +
+                    "</a>\r\n            </li>\r\n            <li class=\"submenu-col\">\r\n              <a " +
+                    "href=\"https://sp3.daikin.co.id:8443/_layouts/15/Daikin.WebApps/FinanceMenu/List." +
+                    "aspx\">\r\n                <img src=\"../_layouts/15/Daikin.Application/Assets/Finan" +
+                    "ce Payment/Icon Daikin Nintex-04.png\" width=\"90px\" class=\"mt-1\">\r\n              " +
+                    "  <div class=\"submenu-title\">Schedule Payment</div>\r\n              </a>\r\n       " +
+                    "     </li>\r\n          </ul>\r\n        </li>\r\n\r\n      </ul>\r\n    </nav>\r\n</div>");
         }
         
         [GeneratedCodeAttribute("Microsoft.VisualStudio.SharePoint.ProjectExtensions.CodeGenerators.SharePointWebP" +

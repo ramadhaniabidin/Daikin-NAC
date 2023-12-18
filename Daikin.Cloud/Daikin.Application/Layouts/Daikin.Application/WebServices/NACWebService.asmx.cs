@@ -38,26 +38,32 @@ namespace Daikin.Application.Layouts.WebServices {
             string lastcol = "";
             string tblType = "";
             int header_id = 0;
+            string actionType = "";
 
             // temp var utk query Details yg sedang dijalankan
             var detailQuery = "";
             try
             {
                 SPListItem listItem = list.GetItemById(ListItemID);
+
                 DataTable dt = func.GetMappingAttributes(ListName);
                 DataTable dtAttrDetails = func.GetMappingAttributeDetails(ListName);
 
                 //get form status && Approval Status
                 string formStatus = (String)listItem["Form_x0020_Status"];
                 string approvalStatus = (String)listItem["Approval_x0020_Status"];
+                string currentLogin = Utility.GetSPUser(listItem, "Created By").LoginName;
+
+                string currentLoginName = Utility.GetSPUser(listItem, "Created By").Name;
 
                 string sql = string.Empty;
                 List<string> values = new List<string>();
 
                 int i = 0;
                 tblType = "Table Header";
-                if (formStatus == "Start" &&  (approvalStatus == "" || approvalStatus == null))
+                if ((formStatus == "Start" || formStatus == "Draft") &&  (approvalStatus == "" || approvalStatus == null))
                 {
+                    actionType = "ItemAdded";
                     foreach (DataRow row in dt.Rows)
                     {
                         lastloop = i;
@@ -80,6 +86,19 @@ namespace Daikin.Application.Layouts.WebServices {
                         i++;
                     }
 
+                    sql += ", Approval_Status";
+                    if (formStatus == "Start")
+                    {
+                        values.Add("2");
+                    }
+                    else if (formStatus == "Draft")
+                    {
+                        values.Add("8");
+                    }
+
+                    sql += ", PIC_Team";
+                    values.Add("'" + currentLogin +"'");
+
                     sql += ")";
 
                     string combineValues = string.Join(",", values);
@@ -88,6 +107,7 @@ namespace Daikin.Application.Layouts.WebServices {
                 }
                 else
                 {
+                    actionType = "ItemUpdated";
                     foreach (DataRow row in dt.Rows)
                     {
                         lastloop = i;
@@ -141,10 +161,10 @@ namespace Daikin.Application.Layouts.WebServices {
                     DataRow[] matchingRows = dtAttrDetails.Select();
                     dtAttrDetailsFilter.Clear();
 
-                    if (!dtAttrDetails.Columns.Contains("ID"))
-                    {
-                        dtAttrDetailsFilter.Rows.Add("", "ID", "ID");
-                    }
+                    //if (!dtAttrDetails.Columns.Contains("ID"))
+                    //{
+                    //    dtAttrDetailsFilter.Rows.Add("", "ID", "ID");
+                    //}
 
                     if (!dtAttrDetails.Columns.Contains("Header_ID"))
                     {
@@ -161,20 +181,20 @@ namespace Daikin.Application.Layouts.WebServices {
                     XElement root = XElement.Parse(attr.XMLString);
                     foreach (var item in root.Descendants("Item"))
                     {
-                        if (XMLManager.GetValue(item, "ID") == "NOT EXISTS")
-                        {
-                            XMLManager.AddAttribute(item, "ID", "");
-                        }
+                        //if (XMLManager.GetValue(item, "ID") == "NOT EXISTS")
+                        //{
+                        //    XMLManager.AddAttribute(item, "ID", "");
+                        //}
 
                         if (XMLManager.GetValue(item, "Header_ID") == "NOT EXISTS")
                         {
                             XMLManager.AddAttribute(item, "Header_ID", header_id.ToString());
                         }
 
-                        if (string.IsNullOrEmpty(XMLManager.GetValue(item, "ID")))
-                        {
-                            item.Element("ID").Value = Guid.NewGuid().ToString();
-                        }
+                        //if (string.IsNullOrEmpty(XMLManager.GetValue(item, "ID")))
+                        //{
+                        //    item.Element("ID").Value = Guid.NewGuid().ToString();
+                        //}
                     }
 
                     attr.XMLString = root.ToString();
@@ -199,18 +219,73 @@ namespace Daikin.Application.Layouts.WebServices {
                 #endregion
 
                 #region InsertAutoCodeBatch
-                if (formStatus == "Start" && (approvalStatus == "" || approvalStatus == null))
+                if (formStatus == "Start" && (approvalStatus == "" || approvalStatus == null || approvalStatus == "0"))
                 {
                     func.AutoCodeBatch(ListName, ListItemID, header_id);
                 }
+                else if (formStatus == "Start")
+                {
+                    #region Start Workflow
+
+                    var Module_Code = func.GetModuleCode(ListName);
+
+                    StartData startData = new StartData();
+                    startData.se_headerid = (int)ListItemID;
+                    startData.se_tablename = Module_Code;
+
+                    NWCParamModel nwcParamModel = new NWCParamModel();
+                    nwcParamModel.startData = startData;
+                    //string token = Aprroval.GetToken();
+                    NintexWorkflowCloud nwc = new NintexWorkflowCloud();
+                    nwc.url = "https://au.nintex.io/workflows/v1/designs/e13eb321-e44c-4242-a21e-ae024e620017/instances";
+                    nwc.param = nwcParamModel;
+
+                    //StartWorkflowBySystemAccount(nwc);
+                    Task.Run(async () => { await new Aprroval().StartNWC(nwc); }).Wait();
+                    #endregion
+
+                    func.InsertApprovalLog(ListName, ListItemID, 19, currentLogin, currentLoginName, "0", "");
+                }
                 #endregion
+
+                try
+                {
+                    if (formStatus != "Draft" && formStatus != "Revise" && formStatus != "Reject")
+                    {
+                        listItem["Form_x0020_Status"] = "Workflow";
+                        listItem.Update();
+
+                        web.AllowUnsafeUpdates = false;
+                    } else if (formStatus == "Draft")
+                    {
+                        listItem["Approval_x0020_Status"] = "0";
+                        listItem.Update();
+
+                        web.AllowUnsafeUpdates = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    #region Catch Log Errors
+                    var inner = ex.InnerException;
+                    LogModel log = new LogModel();
+                    log.EventName = actionType;
+                    log.ListItemId = ListItemID;
+                    log.ListName = ListName;
+                    log.SysMessage = ex.GetType().Name + " : " + ex.Message + " | Error Occurred at Updating Form Status Column";
+                    log.CompiledQuery = !string.IsNullOrWhiteSpace(detailQuery) ? detailQuery : fullQuery;
+
+                    func.InsertLog(log);
+                    #endregion
+                }
+
 
                 var successLog = new LogModel()
                 {
-                    EventName = (formStatus == "Start" && approvalStatus == "")? "Item Added" : "Item Updated",
+                    EventName = actionType,
                     ListItemId = ListItemID,
                     ListName = ListName,
-                    SysMessage = (formStatus == "Start" && approvalStatus == "")? ("Insert data success" + ((dtAttrDetails.Rows.Count > 0) ? ", with details." : ".")) : "Update data success",
+                    SysMessage = actionType == "ItemAdded" ? ("Insert data success" + ((dtAttrDetails.Rows.Count > 0) ? ", with details." : ".")) : "Update data success",
                     CompiledQuery = ""
                 };
                 func.InsertLog(successLog);
@@ -220,7 +295,7 @@ namespace Daikin.Application.Layouts.WebServices {
                 #region Log EventReceivers
                 var inner = ex.InnerException;
                 LogModel log = new LogModel();
-                log.EventName = "ItemAdded";
+                log.EventName = actionType;
                 log.ListItemId = ListItemID;
                 log.ListName = ListName;
                 log.SysMessage = ex.GetType().Name + " : " + ex.Message + " | Stopped at " + (tblType == "Table Header" ? ("column " + lastcol + " at ") : "") + tblType + " (loop: " + lastloop + ")";
@@ -233,27 +308,32 @@ namespace Daikin.Application.Layouts.WebServices {
         }
 
         [WebMethod]
-        public string ApproveRequest(string approvalValue, string ListName, int ListItemID)
+        public string ApproveRequest(string approvalValue, string ListName, int ListItemID, string comments)
         {
 
             try
             {
+
+                SPWeb web = new SPSite(Utility.SpSiteUrl_DEV).OpenWeb();
+                string userEmail = web.CurrentUser.Email.ToLower();
+                string userName = web.CurrentUser.Name;
+
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 var resultDataID = Aprroval.GetListDataID(ListName, ListItemID);
                 //var dataID = DataID[0];
                 string NAC_Guid = resultDataID[0].NAC_Guid;
                 string token = Aprroval.GetToken();
-                //var resultTask = Task.Run(async () => await new Aprroval().GetTasks(token));
-                //var tasks = resultTask;
                 var tasks = Aprroval.GetTasks(token, NAC_Guid);
-                //var tasks = Task.Run(async () => { await new Aprroval().GetTasks(); }).Wait();
-                //var tasks = Aprroval.GetTasks();
 
                 Console.WriteLine(js.Serialize(tasks));
                 var task = tasks.FirstOrDefault(t => t["name"].Contains($"Item ID: {ListItemID}"));
 
                 string task_id = Convert.ToString(task["id"]);
-                string assignmentID = Convert.ToString(task["taskAssignments"][0]["id"]);
+                IEnumerable<dynamic> assignments = task["taskAssignments"];
+
+                var targetAssignment = assignments.FirstOrDefault(t => t["assignee"].ToLower().Contains(userEmail));
+
+                string assignmentID = Convert.ToString(targetAssignment["id"]);
 
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -269,8 +349,31 @@ namespace Daikin.Application.Layouts.WebServices {
 
                 var response = client.SendAsync(request).Result;
 
-
                 var responseBody = response.Content.ReadAsStringAsync();
+
+                #region Insert Log Data
+
+                SPWeb oWeb = SPContext.Current.Web;
+                SPList list = oWeb.Lists[ListName];
+                oWeb.AllowUnsafeUpdates = true;
+
+                SPListItem listItem = list.GetItemById(ListItemID);
+                string currentLayer = listItem["Approval_x0020_Status"].ToString();
+                string currentLogin = oWeb.CurrentUser.LoginName;
+                string currentLoginName = oWeb.CurrentUser.Name;
+
+                int ApprovalCode = 0;
+                if (approvalValue == "Approve")
+                    ApprovalCode = 7;
+                else if (approvalValue == "Revise")
+                    ApprovalCode = 5;
+                else if (approvalValue == "Reject")
+                    ApprovalCode = 6;
+
+                func.InsertApprovalLog(ListName, ListItemID, ApprovalCode, currentLogin, currentLoginName, currentLayer, comments);
+                #endregion
+
+                new Utility().GetPendingApproverReplace(ListName, ListItemID, userName);
 
                 var result = new
                 {
@@ -296,6 +399,27 @@ namespace Daikin.Application.Layouts.WebServices {
         {
             var approver = new Utility().GetPendingApprover(ListName, ListItemID);
             return approver;
+        }
+
+        [WebMethod]
+        public string GetHistoryLog2(string Form_No)
+        {
+            var Logs = func.GetHistoryLog(Form_No, "");
+            return new JavaScriptSerializer().Serialize(Logs);
+        }
+
+        [WebMethod]
+        public string GETAuthorLogin(string ListName, int ItemID)
+        {
+            SPWeb web = new SPSite(Utility.SpSiteUrl_DEV).OpenWeb();
+            SPList list = web.Lists[ListName];
+            web.AllowUnsafeUpdates = true;
+
+            SPListItem Item = list.GetItemById(ItemID);
+
+            SPUser user = Utility.GetSPUser(Item, "Created By");
+
+            return user.LoginName;
         }
     }
 }

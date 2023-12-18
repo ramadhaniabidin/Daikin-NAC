@@ -41,3 +41,25 @@ input, select, textarea, .ms-inputBox, .ip-container, .ip-item span {
 #s4-ribbonrow{
     display:none;
 }
+
+.buttonSearchPopUp:hover{
+    background-color: #00000008;
+    border-radius: 2px;
+    transition: 0.2s;
+}
+
+div.nwf-form input[type="text"]:read-only,
+div.nwf-form input[type="password"]:read-only,
+div.nwf-form textarea:read-only,
+div.nwf-form input[type="text"]:not([disabled])
+div.nwf-form input[type="text"]:disabled,
+div.nwf-form input[type="password"]:disabled,
+div.nwf-form textarea:disabled,
+div.nwf-form select:disabled,
+div.nwf-form.popupfilled select,
+div.nwf-form textarea.ip-input.ui-autocomplete-input:disabled {
+    /* For 'disabled' control on Display mode */
+    pointer-events: none !important;
+    background-color: #D6D6D6 !important;
+    color: #142038;
+}

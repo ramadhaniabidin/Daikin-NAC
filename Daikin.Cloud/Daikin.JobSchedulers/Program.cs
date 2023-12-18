@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
 using Newtonsoft.Json;
+using Daikin.JobSchedulersLogic.Controller;
 
 namespace Daikin.JobSchedulers
 {
@@ -63,6 +64,45 @@ namespace Daikin.JobSchedulers
 
                     WriteToFile(DateTime.Now.ToString("dd MMM yyyy HH:mm:ss tt") + " - Successfully Generate Code " + result + " items");
                 }
+                else if (F_Code == "33") //Batch 1 Feedback 
+                {
+                    var count = 0;
+                    var total = 0;
+                    SAP2Controller ctrl = new SAP2Controller();
+                    try
+                    {
+                        ctrl.ReadBatchFeedbacks(ref total, ref count);
+                    }
+                    catch (Exception ex)
+                    {
+                        Utility.WriteToFile(ex.ToString());
+                    }
+                    finally
+                    {
+                        Utility.WriteToFile("Batch 1 - Successfully Read SAP Posting Feedbacks " + count + " of " + total + (total > 1 ? " files" : " file"));
+                    }
+
+                }
+                else if (F_Code == "34") //Batch 2 Feedback
+                {
+                    SAP3Controller ctrl = new SAP3Controller();
+
+                    var count = 0;
+                    var total = 0;
+
+                    try
+                    {
+                        ctrl.ReadBatchFeedbacks(ref total, ref count);
+                    }
+                    catch (Exception ex)
+                    {
+                        Utility.WriteToFile(ex.ToString());
+                    }
+                    finally
+                    {
+                        Utility.WriteToFile("Batch 2 - Successfully Read SAP Feedbacks " + count + " of " + total + (total > 1 ? " files" : " file"));
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -89,17 +129,15 @@ namespace Daikin.JobSchedulers
                 reader = db.cmd.ExecuteReader();
                 dt.Load(reader);
                 db.CloseDataReader(reader);
+                db.CloseConnection(ref conn);
 
                 var list = Utility.ConvertDataTableToList<AutoCodeBatch>(dt);
                 return list;
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-            finally
-            {
                 db.CloseConnection(ref conn);
+                throw ex;
             }
         }
 
@@ -189,6 +227,41 @@ namespace Daikin.JobSchedulers
                     Console.WriteLine(autoCode);
                     #endregion
 
+                    #region InsertHistoryLog
+                    SPWeb web = new SPSite(Utility.SpSiteUrl_DEV).OpenWeb();
+                    SPList listData = web.Lists[item.ListName];
+                    web.AllowUnsafeUpdates = true;
+
+                    SPListItem listItem = listData.GetItemById(item.ItemID.Value);
+
+                    string CurrentLogin = listItem["Author"].ToString();
+                    string CurrentLoginName = listItem["Requester_x0020_Name"].ToString();
+
+                    try
+                    {
+                        db.OpenConnection(ref conn);
+                        db.cmd.CommandText = "[dbo].[usp_NWC_insertHistoryLog]";
+                        db.cmd.CommandType = CommandType.StoredProcedure;
+                        db.cmd.Parameters.Clear();
+
+                        db.AddInParameter(db.cmd, "listName", item.ListName);
+                        db.AddInParameter(db.cmd, "listItemID", item.ItemID.Value);
+                        db.AddInParameter(db.cmd, "action", 1);
+                        db.AddInParameter(db.cmd, "currentLogin", CurrentLogin);
+                        db.AddInParameter(db.cmd, "currentLoginName", CurrentLoginName);
+                        db.AddInParameter(db.cmd, "currentLayer", "0");
+
+                        db.cmd.ExecuteNonQuery();
+                        db.CloseConnection(ref conn);
+                    }
+
+                    catch (Exception ex)
+                    {
+                        db.CloseConnection(ref conn);
+                        throw ex;
+                    }
+                    
+                    #endregion
 
                     #region Start Workflow
 
@@ -280,8 +353,9 @@ namespace Daikin.JobSchedulers
                     NWCParamModel nwcParamModel = new NWCParamModel();
                     nwcParamModel.startData = startData;
 
+                    //string token = Program.GetToken();
                     NintexWorkflowCloud nwc = new NintexWorkflowCloud();
-                    nwc.url = "https://daikin.workflowcloud.com/api/v1/workflow/published/e13eb321-e44c-4242-a21e-ae024e620017/instances?token=CL9crPPiU0OJMX16I2Imuqm61SlxPsXNYNw4zePxxT3l0K1j5umw8PIafK5BpoYpL4fitN";
+                    nwc.url = "https://au.nintex.io/workflows/v1/designs/e13eb321-e44c-4242-a21e-ae024e620017/instances";
                     nwc.param = nwcParamModel;
 
                     //Task.Run(async () => { await new Program().StartNWC(nwc); }).Wait();
@@ -355,18 +429,6 @@ namespace Daikin.JobSchedulers
 
         public async Task StartNWC(NintexWorkflowCloud nwc)
         {
-            //var client = new RestClient(url);
-            //var request = new RestRequest(url, RestSharp.Method.POST);
-            //request.AddHeader("Content-Type", "application/json");
-            ////request.AddBody(sBody, "application/json");
-            ////RestResponse response = await client.PostAsync(request);
-            //Task< RestResponse> ExecutePostAsync(RestRequest request, CancellationToken cancellationToken);
-            ////RestResponse response = await client.ExecuteAsync(request);
-            //var output = response.Content;
-            //Console.WriteLine(output);        
-            //var client = new RestClient("https://daikin.workflowcloud.com/api/v1/workflow/published/db5605f7-6e18-4055-b8bc-58700c828fda/instances?token=BNGKiD7qogQwOXXydygZjsL6gucAF4ybSAXzWl8gX39HqDD53LXc0LICouXlbpbaoRyocb");
-            //var request = new RestRequest("products");
-            //var response = await client.ExecuteAsync(request);
 
             string sBody = new JavaScriptSerializer().Serialize(nwc.param);
 
@@ -376,6 +438,8 @@ namespace Daikin.JobSchedulers
             client.DefaultRequestHeaders
                 .Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json")); //ACCEPT Header
+            //string token = Program.GetToken();
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, nwc.url);
 
@@ -389,5 +453,55 @@ namespace Daikin.JobSchedulers
             }
 
         }
+
+        public void InsertApprovalLog(string listName, int listItemID, int action, string CurrentLogin, string CurrentLoginName, string currentLayer)
+        {
+            try
+            {
+                db.OpenConnection(ref conn);
+                db.cmd.CommandText = "[dbo].[usp_NWC_insertHistoryLog]";
+                db.cmd.CommandType = CommandType.StoredProcedure;
+                db.cmd.Parameters.Clear();
+
+                db.AddInParameter(db.cmd, "listName", listName);
+                db.AddInParameter(db.cmd, "listItemID", listItemID);
+                db.AddInParameter(db.cmd, "action", action);
+                db.AddInParameter(db.cmd, "currentLogin", CurrentLogin);
+                db.AddInParameter(db.cmd, "currentLoginName", CurrentLoginName);
+                db.AddInParameter(db.cmd, "currentLayer", currentLayer);
+
+                db.cmd.ExecuteNonQuery();
+                db.CloseConnection(ref conn);
+            }
+
+            catch (Exception ex)
+            {
+                db.CloseConnection(ref conn);
+                throw ex;
+            }
+        }
+
+        public static string GetToken()
+        {
+            string url = "https://us.nintex.io/authentication/v1/token";
+
+            HttpClient client = new HttpClient();
+            var requestBody = new
+            {
+                client_id = "bd3797e5-2c76-4834-90f1-70060fe10844",
+                client_secret = "sKtUsKRNNtWsJLROQtUsPMtWVsMNtRTsLOtWRWsPtVsRtRsNtSPsMLItT2IsRtVsFRtTsNtUsFMOtUsOFtRsQRJFtT2utUsItRsOtSVsO2N",
+                grant_type = "client_credentials"
+            };
+            var jsonBody = new JavaScriptSerializer().Serialize(requestBody);
+            var HttpContent = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+            var response = client.PostAsync(url, HttpContent).Result;
+            var responseJson = response.Content.ReadAsStringAsync().Result;
+            var responseObject = new JavaScriptSerializer().Deserialize<dynamic>(responseJson);
+            Console.WriteLine(responseObject);
+            string accessToken = responseObject["access_token"];
+
+            return accessToken;
+        }
+
     }
 }

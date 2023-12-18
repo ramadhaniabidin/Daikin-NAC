@@ -33,9 +33,16 @@ app.directive('loading', ['$http', function ($http) {
 }]);
 
 app.service("svc", function ($http) {
-    this.svc_TaskApprovalGetPendingTaskApproval = function (pageNo, rowlimit) {
-        //var param = { pageNo, rowlimit }
-        var param = {}
+    this.svc_TaskApprovalGetPendingTaskApproval = function (pageNo, rowlimit, SearchBy, Keywords) {
+        var model = {
+            PageIndex: pageNo,
+            PageSize: rowlimit,
+            SearchBy: SearchBy,
+            Keywords: Keywords,
+        }
+        var param = {
+            model:model
+        }
 
         var response = $http({
             method: "post",
@@ -49,8 +56,17 @@ app.service("svc", function ($http) {
 
 app.controller('ctrl', function ($scope, svc) {
     $scope.pageNo = 1;
-    $scope.rowlimit = 20;
+    $scope.rowlimit = 10;
     $scope.PendingTasks = [];
+    $scope.Keywords = '';
+
+    $scope.ddlSearchBy = [
+        { Code: 'ItemTitle', Name: 'Nintex No' },
+        { Code: 'RequestorName', Name: 'Requestor' },
+    ];
+
+    $scope.SearchBy = $scope.ddlSearchBy[0];
+
 
     $scope.ConvertJSONDate = function (x, format) {
         if (format == undefined) format = "{dd}-{mmm}-{yyyy}";
@@ -116,7 +132,7 @@ app.controller('ctrl', function ($scope, svc) {
         try {
             $scope.pageNo = pageNo;
 
-            var proc = svc.svc_TaskApprovalGetPendingTaskApproval($scope.pageNo, $scope.rowlimit);
+            var proc = svc.svc_TaskApprovalGetPendingTaskApproval($scope.pageNo, $scope.rowlimit, $scope.SearchBy.Code, $scope.Keywords);
             proc.then(function (response) {
                 var data = JSON.parse(response.data.d);
                 if (data.ProcessSuccess) {
@@ -159,6 +175,17 @@ app.controller('ctrl', function ($scope, svc) {
     $("body").on("click", ".Pager .page", function () {
         $scope.TaskApprovalGetPendingTaskApproval(parseInt($(this).attr('page')));
     });
+
+    $scope.SearchHelper = function (keyEvent) {
+        if (keyEvent.which === 13) {
+            $scope.documentReady();
+        }
+    };
+
+    $scope.Search = function () {
+        $scope.documentReady();
+    };
+
 
     $scope.documentReady();
 });

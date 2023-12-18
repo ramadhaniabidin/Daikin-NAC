@@ -25,7 +25,7 @@ namespace Daikin.BusinessLogics.Apps.ClaimReimbursement.Controller
             try
             {
                 db.OpenConnection(ref conn);
-                db.cmd.CommandText = "usp_Utility_ListData";
+                db.cmd.CommandText = "dbo.usp_ClaimReimbursement_ListData";
                 db.cmd.CommandType = CommandType.StoredProcedure;
 
                 db.cmd.Parameters.Clear();
@@ -40,8 +40,6 @@ namespace Daikin.BusinessLogics.Apps.ClaimReimbursement.Controller
                 db.AddInParameter(db.cmd, "PaymentStatus", model.PaymentStatus);
                 db.AddInParameter(db.cmd, "PostingStatus", model.PostingStatus);
                 db.AddInParameter(db.cmd, "BranchName", model.BranchName);
-                db.AddInParameter(db.cmd, "ModuleId", model.ModuleId);
-                db.AddInParameter(db.cmd, "Plant_Code", model.Plant_Code);
                 db.AddInParameter(db.cmd, "PendingApproverRoleID", model.PendingApproverRoleID);
                 db.AddInParameter(db.cmd, "PendingApproverRole", model.PendingApproverRole);
 
@@ -54,15 +52,13 @@ namespace Daikin.BusinessLogics.Apps.ClaimReimbursement.Controller
                 db.CloseDataReader(reader);
                 RecordCount = Convert.ToInt32(db.cmd.Parameters["@RecordCount"].Value);
                 GrandTotal = Convert.ToDecimal(db.cmd.Parameters["@GrandTotal"].Value);
+                db.CloseConnection(ref conn);
                 return dt.Rows.Count > 0 ? Utility.ConvertDataTableToList<GeneralHeaderModel>(dt) : new List<GeneralHeaderModel>();
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-            finally
-            {
                 db.CloseConnection(ref conn);
+                throw ex;
             }
         }
         public List<GeneralHistoryLogModel> GetHistoryLog(string Form_No, string ModuleCode)

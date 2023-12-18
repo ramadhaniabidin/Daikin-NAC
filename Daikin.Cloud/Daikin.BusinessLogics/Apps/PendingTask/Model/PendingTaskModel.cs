@@ -22,5 +22,9 @@ namespace Daikin.BusinessLogics.Apps.PendingTask.Model
 
         public string AssignedTo { get; set; }
 
+        public string RequestorName { get; set; }
+        public string PendingApproverRole { get; set; }
+        public string Branch { get; set; } 
+
     }
 }

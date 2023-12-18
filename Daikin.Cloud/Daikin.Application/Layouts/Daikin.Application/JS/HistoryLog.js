@@ -5,6 +5,13 @@ NWF.FormFiller.Events.RegisterAfterReady(function () {
         console.log('NewForm');
     } else {
         GetWorkflowHistoryList();
+        if (NWF$('#' + cvFormStatus).val() == '' || NWF$('#' + cvFormStatus).val() == 'Revise' || NWF$('#' + cvFormStatus).val() == 'Draft') {
+            $(".nf-attachmentsLink").css("display", "block");
+            $(".propertysheet").css("display", "block");
+        } else {
+            $(".nf-attachmentsLink").css("display", "none");
+            $(".propertysheet").css("display", "none");
+        }
     }
 });
 
@@ -12,12 +19,14 @@ NWF.FormFiller.Events.RegisterAfterReady(function () {
 function GetWorkflowHistoryList() {
     try{
         var objek = new Object();
-        console.log('object FormNo', FormNo);
+        console.log('object textFormNo', NWF$('#' + textFormNo).val());
+        console.log('object cvFormNo', NWF$('#' + cvFormNo).html());
 
-        if ((NWF$('#' + FormNo).val())) {
-            objek.Form_No = NWF$('#' + FormNo).val(); //Actually textbox object
+
+        if (location.href.toUpperCase().includes('DISP')) {
+            objek.Form_No = NWF$('#' + cvFormNo).val(); //not textbox
         } else {
-            objek.Form_No = NWF$('#' + FormNo).html(); //not textbox
+            objek.Form_No = NWF$('#' + textFormNo).val(); //Actually textbox object
         }
 
         console.log('Form No', objek.Form_No);
@@ -25,7 +34,7 @@ function GetWorkflowHistoryList() {
 
         NWF$.ajax({
             type: "POST",
-            url: '/_layouts/15/WebServices/Master.asmx/GetHistoryLog2',
+            url: '/_layouts/15/Daikin.Application/WebServices/NACWebService.asmx/GetHistoryLog2',
             async: false,
             cache: false,
             data: JSON.stringify(objek),

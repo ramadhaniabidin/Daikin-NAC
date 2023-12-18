@@ -51,6 +51,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ConnectToSharedFolder.cs" />
+    <Compile Include="Controller\SAP2Controller.cs" />
+    <Compile Include="Controller\SAP3Controller.cs" />
     <Compile Include="Model\AutoCodeModel.cs" />
     <Compile Include="Model\BatchModel.cs" />
     <Compile Include="Class1.cs" />
@@ -68,9 +71,7 @@
     <Compile Include="Model\ProgramModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controller\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

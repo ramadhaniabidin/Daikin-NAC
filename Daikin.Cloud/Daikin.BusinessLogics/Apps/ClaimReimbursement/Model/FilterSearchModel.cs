@@ -157,5 +157,8 @@ namespace Daikin.BusinessLogics.Apps.ClaimReimbursement.Model
         public string Currency { get; set; }
         public string Procurement_Department { get; set; }
         public string Material_Anaplan { get; set; }
+
+        public string Form_Url { get; set; }
+        public string Form_Desc { get; set; }
     }
 }

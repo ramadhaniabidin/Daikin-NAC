@@ -1,4 +1,5 @@
-﻿using Daikin.BusinessLogics.Apps.PendingTask.Model;
+﻿using Daikin.BusinessLogics.Apps.ClaimReimbursement.Model;
+using Daikin.BusinessLogics.Apps.PendingTask.Model;
 using Daikin.BusinessLogics.Common;
 using Microsoft.SharePoint;
 using System;
@@ -18,7 +19,7 @@ namespace Daikin.BusinessLogics.Apps.PendingTask.Controller
         SqlDataReader reader = null;
         DataTable dt = new DataTable();
 
-        public List<PendingTaskModel> GetPendingTaskList(string SiteUrl, SPWeb oWeb, string CurrentLogin)
+        public List<PendingTaskModel> GetPendingTaskList(string SiteUrl, SPWeb oWeb, string CurrentLogin, FilterHeaderSearchModel model, out int RecordCount)
         {
             dt = new DataTable();
             try
@@ -29,16 +30,24 @@ namespace Daikin.BusinessLogics.Apps.PendingTask.Controller
 
                 db.cmd.Parameters.Clear();
                 db.AddInParameter(db.cmd, "CurrentUserLogin", CurrentLogin);
-                
+                db.AddInParameter(db.cmd, "PageIndex", model.PageIndex);
+                db.AddInParameter(db.cmd, "PageSize", model.PageSize);
+                db.AddInParameter(db.cmd, "SearchBy", model.SearchBy);
+                db.AddInParameter(db.cmd, "Keywords", model.Keywords);
+                db.AddOutParameter(db.cmd, "@RecordCount", SqlDbType.Int);
+
                 reader = db.cmd.ExecuteReader();
                 dt.Load(reader);
                 db.CloseDataReader(reader);
+                RecordCount = Convert.ToInt32(db.cmd.Parameters["@RecordCount"].Value);
+                db.CloseConnection(ref conn);
 
                 return dt.Rows.Count > 0 ? Utility.ConvertDataTableToList<PendingTaskModel>(dt) : new List<PendingTaskModel>();
                 
             }
             catch (Exception ex)
             {
+                db.CloseConnection(ref conn);
                 throw ex;
             }
         }

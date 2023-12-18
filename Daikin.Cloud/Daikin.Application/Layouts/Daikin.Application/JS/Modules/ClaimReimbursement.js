@@ -120,9 +120,9 @@ app.service("svc", function ($http) {
 
         var param = {
             model: model
-        }
+        }        
 
-        // console.log('param',param);
+         console.log('param svc_ListData',param);
         var response = $http({
             method: "post",
             url: "/_layouts/15/Daikin.Application/WebServices/ClaimReimbursement.asmx/ListData",
@@ -315,7 +315,16 @@ app.controller('ctrl', function ($scope, svc) {
                 var module_code = GetQueryString()['module'];
 
                 $scope.ddlBranch = data.listBranch;
-                if (data.Branch == '') {
+                console.log('GetModuleOptions - Branch: ', data.Branch);
+                var br = data.Branch;
+
+                if (data.Branch == undefined) {
+                    br = '';
+                } else if (data.Branch == '') {
+                    br = '';
+                }
+
+                if (br == '') {
                     $scope.Branch = data.listBranch[0];
                 } else {
                     $scope.Branch = data.listBranch.find(o => o.Code == data.Branch);
@@ -407,10 +416,8 @@ app.controller('ctrl', function ($scope, svc) {
     $scope.CreateNewForm = function () {
         if ($scope.Module.Code == 'M001')
             location.href = 'Memo.aspx?module=' + $scope.Module.Code;
-        else if ($scope.Module.Code == 'M004')
+        else 
             location.href = $scope.Module.Module_Url;
-        else
-            location.href = 'Display.aspx?module=' + $scope.Module.Code;
     }
 
     /* Pagination */
@@ -420,12 +427,11 @@ app.controller('ctrl', function ($scope, svc) {
     $scope.Keywords = '';
     $scope.GrandTotal = 0;
     $scope.ListData = function (PageIndex) {
-        $scope.IsFC = getParameterByName('is_fc') == undefined ? false : getParameterByName('is_fc');
         var TableName = $scope.Module.Table_Name;
         var FilterBy = $scope.FilterBy.Code;
         var StartDate = $scope.Date.Start;
         var EndDate = $scope.Date.End;
-        var Branch = $scope.Branch.Name;
+        var Branch = $scope.Branch == undefined ? '' : $scope.Branch.Name;
         if (Branch == 'All') {
             Branch = '';
         }
@@ -443,8 +449,7 @@ app.controller('ctrl', function ($scope, svc) {
             PaymentStatus: $scope.PaymentStatus.Code,
             PostingStatus: $scope.PostingStatus.Code,
             BranchName: Branch,
-            BranchName: Branch,
-            PendingApproverRole: $scope.PendingApprovalRole.Code,
+            PendingApproverRole: $scope.PendingApprovalRole.Code == undefined ? '' : $scope.Pending_Approver_Role.Code,
             //CurrentLogin: 'daikin\\urohman',
         };
 

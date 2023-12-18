@@ -90,7 +90,6 @@ namespace Daikin.JobSchedulersLogic.Common.Model
             }
         }
 
-
         #endregion
 
         public bool IsDataExists(string TableName, string FieldKey, string FieldValue)

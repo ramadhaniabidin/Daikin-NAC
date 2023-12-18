@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Daikin.BusinessLogics.Apps.ClaimReimbursement.Model;
+using Daikin.BusinessLogics.Apps.PendingTask.Controller;
+using Daikin.BusinessLogics.Apps.PendingTask.Model;
+using Microsoft.SharePoint;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.UI.WebControls.WebParts;
 
@@ -24,6 +29,24 @@ namespace Daikin.Application.HomeWebPart
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Page.IsPostBack)
+            {
+                try
+                {
+                    int RecordCount = 0;
+                    List<PendingTaskModel> lists = new List<PendingTaskModel>();
+                    FilterHeaderSearchModel model = new FilterHeaderSearchModel();
+                    model.PageIndex = 1;
+                    model.PageSize = 10000;
+                    lists = new PendingTaskController().GetPendingTaskList(SPContext.Current.Site.Url, SPContext.Current.Web,
+                        SPContext.Current.Web.CurrentUser.Name, model, out RecordCount);
+                    TotalPendingTaskList.InnerHtml = RecordCount.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }

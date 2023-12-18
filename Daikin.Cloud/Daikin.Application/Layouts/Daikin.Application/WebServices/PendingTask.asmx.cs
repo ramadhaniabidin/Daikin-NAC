@@ -15,6 +15,7 @@ using Daikin.BusinessLogics.Common.Model;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Daikin.BusinessLogics.Apps.PendingTask.Controller;
+using Daikin.BusinessLogics.Apps.ClaimReimbursement.Model;
 
 namespace Daikin.Application.Layouts.WebServices {
     [WebService(Namespace = "http://spdev:3473/",
@@ -35,7 +36,7 @@ namespace Daikin.Application.Layouts.WebServices {
     }
 
     [WebMethod]
-    public string TaskApprovalByCurrentLogin()
+    public string TaskApprovalByCurrentLogin(FilterHeaderSearchModel model)
     {
         try
         {
@@ -43,18 +44,21 @@ namespace Daikin.Application.Layouts.WebServices {
             string SiteUrl = SPContext.Current.Site.Url;
                 
             string CurrentLogin = oWeb.CurrentUser.Name;
-
-                var data = pta.GetPendingTaskList(SiteUrl, oWeb, CurrentLogin);
+                int RecordCount = 0;
+            var data = pta.GetPendingTaskList(SiteUrl, oWeb, CurrentLogin, model, out RecordCount);
 
             var result = new
             {
                 ProcessSuccess = true,
                 InfoMessage = "OK",
-                RecordCount = data.Count,
+                RecordCount = RecordCount,
                 CurrentLogin = CurrentLogin,
                 SiteUrl = SiteUrl,
                 //datas = datas,
                 data = data,
+                PageIndex = model.PageIndex,
+                PageSize = model.PageSize,
+
             };
 
             return new JavaScriptSerializer().Serialize(result);

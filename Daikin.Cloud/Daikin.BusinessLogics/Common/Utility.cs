@@ -1,4 +1,5 @@
 ﻿using Microsoft.SharePoint;
+using Microsoft.SharePoint.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -204,6 +205,33 @@ namespace Daikin.BusinessLogics.Common
                 throw ex;
             }
         }
+
+        public void GetPendingApproverReplace(string listName, int itemID, string userName)
+        {
+            try
+            {
+                db.OpenConnection(ref conn);
+                db.cmd.CommandText = "dbo.usp_NWC_GetApproverReplace";
+                db.cmd.CommandType = CommandType.StoredProcedure;
+                db.cmd.Parameters.Clear();
+
+                db.AddInParameter(db.cmd, "listName", listName);
+                db.AddInParameter(db.cmd, "itemID", itemID);
+                db.AddInParameter(db.cmd, "userName", userName);
+
+                SqlDataReader reader = db.cmd.ExecuteReader();
+                db.CloseDataReader(reader);
+                db.CloseConnection(ref conn);
+            }
+            catch (Exception ex)
+            {
+                db.CloseConnection(ref conn);
+                throw ex;
+            }
+        }
+        
+
+
 
         public List<string> GetMappingBranchCurrentLogin(string CurrentLogin)
         {
@@ -1191,6 +1219,27 @@ namespace Daikin.BusinessLogics.Common
             return val;
         }
 
+        public static SPUser GetSPUser(SPListItem item, string key)
+        {
+            SPFieldUser field = item.Fields[key] as SPFieldUser;
+
+            if (field != null)
+            {
+                SPFieldUserValue fieldValue = field.GetFieldValue(item[key].ToString()) as SPFieldUserValue;
+
+                if (fieldValue != null)
+                    return fieldValue.User;
+            }
+            return null;
+        }
+
+        public static SPUser GetUserByFullName(string fullName, SPWeb web)
+        {
+            SPPrincipalInfo objInfo = SPUtility.ResolvePrincipal(web, fullName, SPPrincipalType.SecurityGroup | SPPrincipalType.User, SPPrincipalSource.All, null, false);
+            if (objInfo == null)
+                throw new SPException(SPResource.GetString("User can't be found", new object[] { objInfo.LoginName }));
+            return web.SiteUsers[objInfo.LoginName];
+        }
 
 
     }

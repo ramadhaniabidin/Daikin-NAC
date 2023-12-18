@@ -65,11 +65,14 @@
     <Compile Include="Common\CommonLogic.cs" />
     <Compile Include="Common\DatabaseManager.cs" />
     <Compile Include="Common\ExcelManager.cs" />
+    <Compile Include="Common\Model\ApprovalLogModel.cs" />
     <Compile Include="Common\Model\ApproverRoleModel.cs" />
     <Compile Include="Common\Model\Attachment.cs" />
     <Compile Include="Common\Model\NACWebServiceModel.cs" />
     <Compile Include="Common\Model\OptionModel.cs" />
+    <Compile Include="Common\Model\PopListModel.cs" />
     <Compile Include="Common\NintexCloudManager.cs" />
+    <Compile Include="Common\PopListController.cs" />
     <Compile Include="Common\SharePointManager.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\XMLManager.cs" />

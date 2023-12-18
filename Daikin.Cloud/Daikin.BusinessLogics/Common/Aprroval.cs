@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
@@ -86,30 +87,31 @@ namespace Daikin.BusinessLogics.Common
             return tasks;
         }
 
+        public async Task StartNWC(NintexWorkflowCloud nwc)
+        {
 
-        //public async Task<object> GetTasks(string token)
-        //{
-        //    var client = new HttpClient();
-        //    var request = new HttpRequestMessage
-        //    {
-        //        Method = HttpMethod.Get,
-        //        RequestUri = new Uri("https://au.nintex.io/workflows/v2/tasks?status=active"),
-        //        Headers =
-        //        {
-        //            { "Accept", "application/json, application/problem+json" },
-        //            { "Authorization", $"Bearer {token}" },
-        //        },
-        //    };
-        //    using (var response = await client.SendAsync(request))
-        //    {
-        //        response.EnsureSuccessStatusCode();
-        //        var body = await response.Content.ReadAsStringAsync();
-        //        var responseObject = new JavaScriptSerializer().Deserialize<dynamic>(body);
-        //        var tasks = responseObject["tasks"];
-        //        return tasks;
-        //    }
+            string sBody = new JavaScriptSerializer().Serialize(nwc.param);
 
-        //}
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(nwc.url);
+            string token = Aprroval.GetToken();
+            client.DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json")); //ACCEPT Header
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); 
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, nwc.url);
+
+            request.Content = new StringContent(sBody, Encoding.UTF8, "application/json");
+
+            using (var response = await client.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var result = await response.Content.ReadAsStringAsync();
+                //return result; //instance guid
+            }
+
+        }
 
 
     }

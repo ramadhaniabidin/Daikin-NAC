@@ -1,4 +1,4 @@
-﻿var app = angular.module('app');
+﻿var app = angular.module('app', []);
 app.directive('button', function () {
     return {
         restrict: 'E',
@@ -33,12 +33,9 @@ app.directive('loading', ['$http', function ($http) {
 
 app.controller('ctrl', function ($scope) {
     $scope.Agree = false;
-    $scope.urlParams = new URLSearchParams(location.search);
-    $scope.Module = $scope.urlParams.get('module');
-
     $scope.SelectDisplay = function () {
-        if (!!$scope.Module)
-            location.href = 'Display.aspx?module=' + $scope.Module;
+        if ($scope.Agree)
+            location.href = '/Lists/Business%20Relation/NewForm.aspx';
         else
             alert("There is no Module defined");
     }

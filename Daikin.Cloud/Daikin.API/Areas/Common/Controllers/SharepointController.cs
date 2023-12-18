@@ -1,4 +1,5 @@
 ﻿using Daikin.API.Areas.Common.Models;
+using Microsoft.SharePoint;
 using Microsoft.SharePoint.Client;
 using System;
 using System.Collections.Generic;
@@ -39,27 +40,54 @@ namespace Daikin.API.Areas.Common.Controllers
         public void Delete(int id)
         {
         }
+
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("UpdateStatus")]
         public IHttpActionResult UpdateStatus([FromBody]CommonUpdateModel model)
         {
             try
             {
-                string password = "Mq151k.$rqUd";
                 //Create the client context object and set the credentials  
-                ClientContext clientContext = new ClientContext("http://spdev:3473/");
-                SecureString securePassword = new SecureString();
-                foreach (char c in password.ToCharArray()) securePassword.AppendChar(c);
-                //clientContext.Credentials = new SharePointOnlineCredentials("nintex2021@daikin.co.id", securePassword);
-                clientContext.Credentials = new NetworkCredential("nintex2021@daikin.co.id", securePassword);
+                string url = System.Configuration.ConfigurationManager.AppSettings["SP:url"].ToString();
+                string username = System.Configuration.ConfigurationManager.AppSettings["SP:username"].ToString();
+                string password = System.Configuration.ConfigurationManager.AppSettings["SP:password"].ToString();
+                string domain = System.Configuration.ConfigurationManager.AppSettings["SP:domain"].ToString();
+                //ClientContext clientContext = new ClientContext(url);
+                //SecureString securePassword = new SecureString();
+                //foreach (char c in password.ToCharArray()) securePassword.AppendChar(c);
 
-                List oList = clientContext.Web.Lists.GetByTitle(model.ListName);
-                ListItem oListItem = oList.GetItemById(model.ListItemId);
-                oListItem["Form_x0020_Status"] = model.FormStatus;
-                oListItem["Workflow_x0020_Status"] = model.WorkflowStatus;
-                oListItem["Approval_x0020_Status"] = model.ApprovalStatus;
-                oListItem.Update();
-                clientContext.ExecuteQuery();
+                //clientContext.Credentials = new NetworkCredential(url, securePassword, domain);
+                //clientContext.AuthenticationMode = ClientAuthenticationMode.Default;
+
+                //List oList = clientContext.Web.Lists.GetByTitle(model.ListName);
+                //ListItem oListItem = oList.GetItemById(model.ListItemId);
+                //oListItem["Form_x0020_Status"] = model.FormStatus;
+                //oListItem["Workflow_x0020_Status"] = model.WorkflowStatus;
+                //oListItem["Approval_x0020_Status"] = model.ApprovalStatus;
+                //oListItem.Update();
+                //clientContext.ExecuteQuery();
+
+
+                SPSecurity.RunWithElevatedPrivileges(() =>
+                {
+                    using (SPSite site = new SPSite(url))
+                    {
+                        using (SPWeb web = site.OpenWeb())
+                        {
+                            web.AllowUnsafeUpdates = true;
+                            SPList list = web.Lists[model.ListName];
+
+                            SPListItem oListItem = list.GetItemById(model.ListItemId);
+                            oListItem["Form_x0020_Status"] = model.FormStatus;
+                            oListItem["Workflow_x0020_Status"] = model.WorkflowStatus;
+                            oListItem["Approval_x0020_Status"] = model.ApprovalStatus;
+                            oListItem.Update();
+                            web.AllowUnsafeUpdates = false;
+
+                        }
+                    }
+                });
+
 
                 var obj = new
                 {

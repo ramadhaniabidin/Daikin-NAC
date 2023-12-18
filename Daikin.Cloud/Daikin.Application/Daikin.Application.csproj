@@ -104,6 +104,10 @@
     <Compile Include="Layouts\Daikin.Application\Modules\PendingTask\PendingTaskList.aspx.designer.cs">
       <DependentUpon>PendingTaskList.aspx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Layouts\Daikin.Application\WebServices\PopList.asmx.cs">
+      <DependentUpon>PopList.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Layouts\Daikin.Application\WebServices\ClaimReimbursement.asmx.cs">
       <DependentUpon>ClaimReimbursement.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -254,22 +258,29 @@
     <Content Include="Layouts\Daikin.Application\CSS\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Layouts\Daikin.Application\CSS\images\ui-icons_d8e7f3_256x240.png" />
     <Content Include="Layouts\Daikin.Application\CSS\images\ui-icons_f9bd01_256x240.png" />
+    <Content Include="Layouts\Daikin.Application\CSS\jquery-ui2.css" />
     <Content Include="Layouts\Daikin.Application\CSS\jquery-ui.css" />
     <Content Include="Layouts\Daikin.Application\CSS\jquery.datetimepicker.css" />
     <Content Include="Layouts\Daikin.Application\CSS\master.css" />
     <Content Include="Layouts\Daikin.Application\CSS\menu-gallery.css" />
     <Content Include="Layouts\Daikin.Application\CSS\navigation.css" />
     <Content Include="Layouts\Daikin.Application\CSS\NintexForms\style.css" />
+    <Content Include="Layouts\Daikin.Application\CSS\stylePopUp.css" />
     <Content Include="Layouts\Daikin.Application\CSS\style.css" />
+    <Content Include="Layouts\Daikin.Application\JS\Common\SeparatedNumber.js" />
+    <Content Include="Layouts\Daikin.Application\JS\Common\TriggerSubmit.js" />
+    <Content Include="Layouts\Daikin.Application\JS\jquery-1.13.2.min.js" />
+    <Content Include="Layouts\Daikin.Application\JS\jquery-3.6.0.min.js" />
     <Content Include="Layouts\Daikin.Application\JS\Modules\ClaimReimbursement.js" />
     <Content Include="Layouts\Daikin.Application\JS\Modules\Memo.js" />
     <Content Include="Layouts\Daikin.Application\JS\Modules\PendingTaskList.js" />
+    <Content Include="Layouts\Daikin.Application\JS\Modules\UnloadingFee.js" />
+    <Content Include="Layouts\Daikin.Application\JS\TriggerSubmit.js" />
     <Content Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\List.aspx" />
     <Content Include="Layouts\Daikin.Application\JS\angular.min.js" />
     <Content Include="Layouts\Daikin.Application\JS\Attachments.js" />
     <Content Include="Layouts\Daikin.Application\JS\BaseLogic.js" />
     <Content Include="Layouts\Daikin.Application\JS\bootstrap.min.js" />
-    <Content Include="Layouts\Daikin.Application\JS\Common\TriggerSubmit.js" />
     <Content Include="Layouts\Daikin.Application\JS\HistoryLog.js" />
     <Content Include="Layouts\Daikin.Application\JS\jquery-3.3.1.min.js" />
     <Content Include="Layouts\Daikin.Application\JS\jquery-ui.min.js" />
@@ -281,6 +292,7 @@
     <Content Include="Layouts\Daikin.Application\JS\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="Layouts\Daikin.Application\Modules\ClaimReimbursement\Memo.aspx" />
     <Content Include="Layouts\Daikin.Application\Modules\PendingTask\PendingTaskList.aspx" />
+    <Content Include="Layouts\Daikin.Application\WebServices\PopList.asmx" />
     <Content Include="Layouts\Daikin.Application\WebServices\ClaimReimbursement.asmx" />
     <Content Include="Layouts\Daikin.Application\WebServices\PendingTask.asmx" />
     <Content Include="Layouts\Daikin.Application\WebServices\NACWebService.asmx" />

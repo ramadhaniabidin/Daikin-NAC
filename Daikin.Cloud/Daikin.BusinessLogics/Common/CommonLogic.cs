@@ -1,4 +1,5 @@
-﻿using Daikin.BusinessLogics.Common.Model;
+﻿using Daikin.BusinessLogics.Apps.ClaimReimbursement.Model;
+using Daikin.BusinessLogics.Common.Model;
 using Microsoft.SharePoint;
 using System;
 using System.Collections.Generic;
@@ -192,16 +193,22 @@ namespace Daikin.BusinessLogics.Common
             }
         }
 
-        public void InsertApprovalLogAfterRevise(string ListName)
+        public void InsertApprovalLog(string listName, int listItemID, int action, string CurrentLogin, string CurrentLoginName, string currentLayer, string comments)
         {
             try
             {
                 db.OpenConnection(ref conn);
-                db.cmd.CommandText = "[dbo].[InsertApprovalLogAfterRevise]";
+                db.cmd.CommandText = "[dbo].[usp_NWC_insertHistoryLog]";
                 db.cmd.CommandType = CommandType.StoredProcedure;
                 db.cmd.Parameters.Clear();
 
-                db.AddInParameter(db.cmd, "ListName", ListName);
+                db.AddInParameter(db.cmd, "listName", listName);
+                db.AddInParameter(db.cmd, "listItemID", listItemID);
+                db.AddInParameter(db.cmd, "action", action);
+                db.AddInParameter(db.cmd, "currentLogin", CurrentLogin);
+                db.AddInParameter(db.cmd, "currentLoginName", CurrentLoginName);
+                db.AddInParameter(db.cmd, "currentLayer", currentLayer);
+                db.AddInParameter(db.cmd, "comments", comments);
 
                 db.cmd.ExecuteNonQuery();
                 db.CloseConnection(ref conn);
@@ -336,6 +343,32 @@ namespace Daikin.BusinessLogics.Common
                 throw ex;
             }
         }
+        
+        public string GetModuleCode(string ListName)
+        {
+            try
+            {
+                db.OpenConnection(ref conn, true);
+                db.cmd.CommandText = "usp_MasterModule_GetModuleCode";
+                db.cmd.CommandType = CommandType.StoredProcedure;
+                db.AddInParameter(db.cmd, "List_Name", ListName);
+
+                SqlDataReader reader = db.cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                db.CloseDataReader(reader);
+                db.CloseConnection(ref conn, true);
+
+                var Module_Code = dt.Rows[0].Field<string>(0);
+
+                return Module_Code;
+            }
+            catch (Exception ex)
+            {
+                db.CloseConnection(ref conn);
+                throw ex;
+            }
+        }
 
         public List<CheckApproval> CheckApproval(string ListName)
         {
@@ -449,6 +482,37 @@ namespace Daikin.BusinessLogics.Common
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+
+        public List<GeneralHistoryLogModel> GetHistoryLog(string Form_No, string ModuleCode)
+        {
+
+            var dt = new DataTable();
+            try
+            {
+                db.OpenConnection(ref conn);
+                db.cmd.CommandText = "dbo.usp_Utility_GetHistoryLogByTransId";
+                db.cmd.CommandType = CommandType.StoredProcedure;
+
+                db.cmd.Parameters.Clear();
+                db.AddInParameter(db.cmd, "Form_No", Form_No);
+                db.AddInParameter(db.cmd, "Module_Code", ModuleCode);
+
+                SqlDataReader reader = db.cmd.ExecuteReader();
+                dt = new DataTable();
+                dt.Load(reader);
+                db.CloseDataReader(reader);
+
+                db.CloseConnection(ref conn);
+                return Utility.ConvertDataTableToList<GeneralHistoryLogModel>(dt);
+
+
+            }
+            catch (Exception ex)
+            {
+                db.CloseConnection(ref conn);
                 throw ex;
             }
         }

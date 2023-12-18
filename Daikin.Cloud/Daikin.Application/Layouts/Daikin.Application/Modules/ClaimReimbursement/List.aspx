@@ -160,10 +160,10 @@
                             <input type="checkbox" name="selected" ng-checked="isSelected(i.Item_ID)" ng-disabled="i.Current_Index_Approver != 2"
                                 ng-click="updateSelection($event, i.Item_ID)" /></td>
                         <td bgcolor="{{i.colorCode}}">{{i.No}}</td>
-                        <td bgcolor="{{i.colorCode}}" ng-show="i.Approval_Status == '5'"><a ng-href="/Lists/Claim%20Reimbursement/EditForm.aspx?ID={{i.Item_ID}}">{{i.Form_No}}</a></td>
-                        <td bgcolor="{{i.colorCode}}" ng-show="i.Approval_Status == '8'"><a ng-href="/Lists/Claim%20Reimbursement/EditForm.aspx?ID={{i.Item_ID}}">DRAFT</a></td>
-                        <td bgcolor="{{i.colorCode}}" ng-show="i.Approval_Status == '2'"><a ng-href="/Lists/Claim%20Reimbursement/DispForm.aspx?ID={{i.Item_ID}}">ON GENERATING</a></td>
-                        <td bgcolor="{{i.colorCode}}" ng-show="['1','6','7','4'].indexOf(i.Approval_Status)>=0"><a ng-href="/Lists/Claim%20Reimbursement/DispForm.aspx?ID={{i.Item_ID}}">{{ i.Form_No }}</a></td>
+                        <td bgcolor="{{i.colorCode}}" ng-show="i.Approval_Status != '8'"><a ng-href="{{i.Form_Url}}">{{i.Form_Desc}}</a></td>
+                        <td bgcolor="{{i.colorCode}}" ng-show="i.Approval_Status == '8'"><a ng-href="{{i.Form_Url}}">DRAFT</a></td>
+                        <%--  <td bgcolor="{{i.colorCode}}" ng-show="i.Approval_Status == '2'"><a ng-href="/Lists/Claim%20Reimbursement/DispForm.aspx?ID={{i.Item_ID}}">ON GENERATING</a></td>
+                        <td bgcolor="{{i.colorCode}}" ng-show="['1','6','7','4'].indexOf(i.Approval_Status)>=0"><a ng-href="/Lists/Claim%20Reimbursement/DispForm.aspx?ID={{i.Item_ID}}">{{ i.Form_No }}</a></td>--%>
                         <td bgcolor="{{i.colorCode}}">{{i.Requester_Name}}</td>
                         <td bgcolor="{{i.colorCode}}">{{i.Branch}}</td>
 

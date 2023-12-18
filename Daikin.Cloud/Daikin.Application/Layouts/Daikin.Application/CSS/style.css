@@ -76,6 +76,16 @@ nav li ul a:hover
 	background-color: rgb(49, 104, 163);
 }
 
+.container-search{
+    display: flex;
+    align-items: center;
+}
+.button-search{
+    height: 30px;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+
 
 /*************/
 nav.primary-navigation {

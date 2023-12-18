@@ -12,19 +12,19 @@
    <link type="text/css" rel="Stylesheet" href="/_layouts/15/Daikin.Application/CSS/navigation.css?id=<%= Guid.NewGuid().ToString() %>" />
     <link type="text/css" rel="Stylesheet" href="/_layouts/15/Daikin.Application/CSS/master.css?id=<%= Guid.NewGuid().ToString() %>" />
 
-    <script type="text/javascript" src="/_layouts/15/Daikin.Application/JS/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="/_layouts/15/Daikin.Application/JS/angular.min.js"></script>
-    <script type="text/javascript" src="/_layouts/15/Daikin.Application/JS/Modules/Memo.js?id=<%= Guid.NewGuid().ToString() %>"></script>
+    <script src="../../JS/jquery-3.3.1.min.js"></script>
+    <script src="../../JS/angular.min.js"></script>
+    <script src="../../JS/Modules/Memo.js?id=<%= Guid.NewGuid().ToString() %>"></script>
 </asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">
     <div class="container mt-5" ng-app="app" ng-controller="ctrl">
-        <div class="row" style="height: 700px">
-            <div class="col-6 text-end">
+        <div class="row" style="height: 700px; display: flex; justify-content:center">
+            <div class="col-6 text-center">
                 <img src="/SiteAssets/InternalMemo.png" alt="Memo1" />
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top:50px; display: flex; justify-content:center">
             <div class="col text-center">
                 <div class="form-check">
                     <label for="Agree" class="form-check-label">
@@ -34,9 +34,9 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display: flex; justify-content:center">
             <div class="col text-center">
-                <button type="button" class="btn btn-primary" ng-disabled="!Agree || !Module" ng-click="SelectDisplay()">OK</button>
+                <button type="button" class="btn btn-primary" ng-show="Agree" ng-click="SelectDisplay()">OK</button>
             </div>
         </div>
     </div>

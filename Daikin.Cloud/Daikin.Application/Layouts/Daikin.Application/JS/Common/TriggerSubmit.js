@@ -1,8 +1,9 @@
 ﻿NWF.FormFiller.Events.RegisterAfterReady(function () {
+    $('#' + Comment).val("")
     if ($('#' + ItemID).val() != null && $('#' + ItemID).val() != "")
         getApprover($('#' + ListName).val(), $('#' + ItemID).val())
 });
-
+ 
 function getApprover(ListName, ListItemID) {
     param = {
         ListName: ListName,
@@ -42,6 +43,7 @@ function SaveApproval(approvalValue, ListName, ListItemID) {
         approvalValue: approvalValue,
         ListName: ListName,
         ListItemID: ListItemID,
+        comments: NWF$('#' + Comment).val(),
     };
 
     console.log('Save & Submit Triggered.');
@@ -57,7 +59,6 @@ function SaveApproval(approvalValue, ListName, ListItemID) {
             async: true,
             success: function () {
                 console.log('Your Response have been recorded!');
-                window.location.href = '/_layouts/15/Daikin.Application/Modules/ClaimReimbursement/List.aspx'
             },
             error: function (xhr) {
                 console.log('Error: ' + xhr.responseText)

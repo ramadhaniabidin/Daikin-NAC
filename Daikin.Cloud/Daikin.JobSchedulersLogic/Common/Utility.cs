@@ -83,6 +83,36 @@ namespace Daikin.JobSchedulersLogic.Common.Model
 
         #endregion
 
+        public static void WriteToFile(string Message, bool timestampPrefix = true)
+        {
+            if (timestampPrefix)
+                Message = DateTime.Now.ToString("dd MMM yyyy HH:mm:ss tt") + " - " + Message;
+            else
+                Message = "   " + Message;
+
+            string path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            string filepath = AppDomain.CurrentDomain.BaseDirectory + "\\Logs\\SchedulerLog_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
+            if (!File.Exists(filepath))
+            {
+                using (StreamWriter sw = File.CreateText(filepath))
+                {
+                    sw.WriteLine(Message);
+                }
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(filepath))
+                {
+                    sw.WriteLine(Message);
+                }
+            }
+        }
+
+
         public string CutOffInputSystem(string ModuleCode)
         {
             try
